@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Al Azhar Athletic Meet — Live Control</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AL AZHAR CENTRAL SCHOOL, MALA — ANNUAL ATHLETIC MEET
+   style.css  ·  v2 live control system
+   Soft neumorphism refresh — original navy, gold and cream theme preserved.
+   ============================================================ */
+
+:root{
+  --navy:#0E3A6E; --navy-2:#17508F; --navy-ink:#0A2A50;
+  --gold:#EFB017; --gold-2:#FFD06B; --gold-deep:#B97F08;
+  --leaf:#3F7A63; --ember:#C8603F; --red:#D0402F;
+
+  --bg:#F4F0E7; --bg-tint:#E4EDFA;
+  --surface:#FCFAF5; --surface-dip:#F1ECE1; --surface-blue:#EAF1FB; --surface-warm:#FBF3DF;
+  --ink:#233144; --ink-2:#6C7A8C; --ink-3:#9AA6B5;
+  --line:rgba(14,58,110,.10); --line-2:rgba(14,58,110,.06);
+
+  --clay: 10px 12px 26px rgba(14,58,110,.10), -7px -7px 18px rgba(255,255,255,.95), inset 0 1px 0 rgba(255,255,255,.85);
+  --clay-sm: 5px 7px 14px rgba(14,58,110,.09), -4px -4px 10px rgba(255,255,255,.92), inset 0 1px 0 rgba(255,255,255,.8);
+  --clay-in: inset 5px 6px 12px rgba(14,58,110,.10), inset -4px -4px 10px rgba(255,255,255,.9);
+  --clay-press: inset 4px 5px 10px rgba(14,58,110,.14), inset -3px -3px 8px rgba(255,255,255,.85);
+
+  --r-lg:24px; --r-md:16px; --r-sm:11px;
+  --h-falcon:#1E5AA8; --h-titan:#D99A0F; --h-phoenix:#C8603F; --h-orion:#3F7A63;
+  --ease:cubic-bezier(.22,.61,.36,1); --ease-soft:cubic-bezier(.34,.9,.3,1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1B30; --bg-tint:#0E2A4C;
+    --surface:#112A4A; --surface-dip:#0D2340; --surface-blue:#14325A; --surface-warm:#1E2F43;
+    --ink:#EAF1FA; --ink-2:#A8BCD6; --ink-3:#7D93AF;
+    --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.05);
+    --gold:#F5C245; --gold-2:#FFDB8A; --gold-deep:#F0BC44;
+    --clay: 12px 14px 30px rgba(0,0,0,.42), -7px -7px 18px rgba(255,255,255,.045), inset 0 1px 0 rgba(255,255,255,.07);
+    --clay-sm: 6px 8px 16px rgba(0,0,0,.38), -4px -4px 10px rgba(255,255,255,.04), inset 0 1px 0 rgba(255,255,255,.06);
+    --clay-in: inset 6px 7px 14px rgba(0,0,0,.42), inset -4px -4px 10px rgba(255,255,255,.05);
+    --clay-press: inset 5px 6px 12px rgba(0,0,0,.5), inset -3px -3px 8px rgba(255,255,255,.04);
+    --h-falcon:#5B93DE; --h-titan:#F0BC44; --h-phoenix:#E08361; --h-orion:#5FA88B;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1B30; --bg-tint:#0E2A4C;
+  --surface:#112A4A; --surface-dip:#0D2340; --surface-blue:#14325A; --surface-warm:#1E2F43;
+  --ink:#EAF1FA; --ink-2:#A8BCD6; --ink-3:#7D93AF;
+  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.05);
+  --gold:#F5C245; --gold-2:#FFDB8A; --gold-deep:#F0BC44;
+  --clay: 12px 14px 30px rgba(0,0,0,.42), -7px -7px 18px rgba(255,255,255,.045), inset 0 1px 0 rgba(255,255,255,.07);
+  --clay-sm: 6px 8px 16px rgba(0,0,0,.38), -4px -4px 10px rgba(255,255,255,.04), inset 0 1px 0 rgba(255,255,255,.06);
+  --clay-in: inset 6px 7px 14px rgba(0,0,0,.42), inset -4px -4px 10px rgba(255,255,255,.05);
+  --clay-press: inset 5px 6px 12px rgba(0,0,0,.5), inset -3px -3px 8px rgba(255,255,255,.04);
+  --h-falcon:#5B93DE; --h-titan:#F0BC44; --h-phoenix:#E08361; --h-orion:#5FA88B;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color:var(--ink); background:var(--bg);
+  background-image:
+    radial-gradient(1100px 620px at 86% -12%, var(--bg-tint), transparent 60%),
+    radial-gradient(820px 560px at -6% 112%, rgba(239,176,23,.13), transparent 58%);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum" 1;
+  overflow:hidden;              /* main display never scrolls */
+}
+h1,h2,h3,h4{font-family:'Outfit',sans-serif;margin:0;letter-spacing:-.02em;}
+button,input,select,textarea{font-family:inherit;color:inherit;}
+::-webkit-scrollbar{width:9px;height:9px;}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:20px;border:3px solid transparent;background-clip:content-box;}
+
+/* ---------- primitives ---------- */
+.clay{background:linear-gradient(152deg,var(--surface),var(--surface-dip));border-radius:var(--r-lg);box-shadow:var(--clay);}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:9px 15px;border:0;border-radius:12px;cursor:pointer;white-space:nowrap;
+  font-size:12.5px;font-weight:650;letter-spacing:.02em;
+  background:linear-gradient(150deg,var(--surface),var(--surface-dip));
+  box-shadow:var(--clay-sm);
+  transition:transform .16s var(--ease), box-shadow .16s var(--ease);
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:translateY(1px);box-shadow:var(--clay-press);}
+.btn[disabled]{opacity:.42;cursor:not-allowed;transform:none;box-shadow:var(--clay-in);}
+.btn-primary{background:linear-gradient(150deg,var(--navy-2),var(--navy));color:#fff;
+  box-shadow:8px 10px 20px rgba(14,58,110,.28), -3px -3px 10px rgba(255,255,255,.5), inset 0 1px 0 rgba(255,255,255,.26);}
+.btn-gold{background:linear-gradient(150deg,var(--gold-2),var(--gold));color:#54380A;
+  box-shadow:8px 10px 20px rgba(214,150,10,.26), -3px -3px 10px rgba(255,255,255,.55), inset 0 1px 0 rgba(255,255,255,.5);}
+.btn-danger{color:var(--red);}
+.btn-xs{padding:6px 10px;font-size:11px;border-radius:10px;}
+.btn-icon{padding:9px;border-radius:12px;}
+.btn svg{width:15px;height:15px;flex:none;}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;
+  font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-2);
+  background:var(--surface-blue);box-shadow:var(--clay-in);}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ink-3);flex:none;}
+.live-dot{background:var(--red);animation:pulse 2.2s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(208,64,47,.5);}70%{box-shadow:0 0 0 9px rgba(208,64,47,0);}100%{box-shadow:0 0 0 0 rgba(208,64,47,0);}}
+.hbadge{border-radius:4px;transform:rotate(45deg);flex:none;display:inline-block;}
+.muted{color:var(--ink-3);}
+
+/* status chips */
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:8px;
+  font-size:9.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;}
+.s-scheduled{background:var(--surface-blue);color:var(--ink-2);}
+.s-ready{background:rgba(239,176,23,.20);color:var(--gold-deep);}
+.s-live{background:rgba(208,64,47,.14);color:var(--red);}
+.s-paused{background:rgba(108,122,140,.16);color:var(--ink-2);}
+.s-completed{background:rgba(63,122,99,.15);color:var(--leaf);}
+.s-delayed{background:rgba(200,96,63,.15);color:var(--ember);}
+.s-cancelled{background:var(--surface-dip);color:var(--ink-3);text-decoration:line-through;}
+
+/* ============================================================
+   SINGLE-SCREEN DASHBOARD GRID — never scrolls
+   ============================================================ */
+.app{
+  height:100vh;height:100dvh;max-width:2200px;margin:0 auto;
+  padding:clamp(10px,1.1vh,20px) clamp(14px,1.4vw,30px);
+  display:grid;grid-template-rows:auto minmax(0,1.18fr) minmax(0,1fr) auto;
+  gap:clamp(9px,1.1vh,16px);overflow:hidden;
+}
+.topbar{display:flex;align-items:center;gap:18px;padding:clamp(8px,1vh,14px) clamp(14px,1.2vw,22px);}
+.crest{width:clamp(40px,3.4vh,56px);aspect-ratio:1;border-radius:50%;flex:none;background:#fff;padding:4px;
+  box-shadow:6px 7px 16px rgba(14,58,110,.17), -4px -4px 12px rgba(255,255,255,.9);}
+.crest img{width:100%;height:100%;object-fit:contain;border-radius:50%;display:block;}
+.brand h1{font-size:clamp(15px,1.15vw,21px);font-weight:700;line-height:1.1;}
+.brand .sub{font-size:9.5px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);margin-top:4px;}
+.topbar .spacer{flex:1;}
+.clock{text-align:right;line-height:1;}
+.clock .t{font-family:'Outfit';font-size:clamp(20px,1.7vw,30px);font-weight:600;}
+.clock .d{font-size:9.5px;color:var(--ink-2);margin-top:5px;letter-spacing:.11em;text-transform:uppercase;}
+.tb-actions{display:flex;gap:7px;align-items:center;}
+
+/* ---------- live arenas ---------- */
+.arenas{display:grid;gap:clamp(9px,1vw,16px);min-height:0;}
+.arena{position:relative;overflow:hidden;padding:clamp(12px,1.5vh,22px) clamp(14px,1.2vw,24px);
+  display:flex;flex-direction:column;min-height:0;}
+.arena .ahead{display:flex;align-items:center;gap:10px;margin-bottom:auto;}
+.arena .aname{font-family:'Outfit';font-size:11px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;}
+.arena.track .aname{color:var(--navy-2);}
+.arena.field .aname{color:var(--gold-deep);}
+.arena .cat{font-family:'Outfit';font-size:clamp(11px,.85vw,15px);font-weight:700;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--ink-2);margin-bottom:4px;}
+.arena h2{font-size:clamp(24px,2.5vw,46px);font-weight:700;line-height:1.02;letter-spacing:-.03em;}
+.arena .facts{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px;align-items:center;}
+.arena .ctl{display:flex;gap:7px;flex-wrap:wrap;margin-top:clamp(9px,1.2vh,16px);}
+.timer{font-family:'Outfit';font-size:clamp(26px,2.5vw,46px);font-weight:700;letter-spacing:-.03em;line-height:1;}
+.timer small{font-size:.32em;font-weight:700;letter-spacing:.18em;color:var(--ink-3);display:block;margin-top:6px;}
+.arena .tright{margin-left:auto;text-align:right;}
+.arena .empty{display:flex;flex-direction:column;justify-content:center;flex:1;gap:10px;}
+.arena .empty .msg{font-family:'Outfit';font-size:clamp(17px,1.5vw,26px);font-weight:600;color:var(--ink-3);}
+
+/* track motif: lanes */
+.motif{position:absolute;inset:auto 0 0 0;height:44%;pointer-events:none;opacity:.55;}
+.arena.track .motif{background:repeating-linear-gradient(0deg,transparent 0 17px,var(--line-2) 17px 18px);
+  -webkit-mask-image:linear-gradient(0deg,rgba(0,0,0,.75),transparent);mask-image:linear-gradient(0deg,rgba(0,0,0,.75),transparent);}
+.arena.field .motif{inset:auto 0 0 auto;width:150px;height:72%;
+  background:repeating-linear-gradient(90deg,transparent 0 21px,rgba(239,176,23,.20) 21px 23px);
+  -webkit-mask-image:linear-gradient(270deg,rgba(0,0,0,.8),transparent);mask-image:linear-gradient(270deg,rgba(0,0,0,.8),transparent);}
+.arena.live::after{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red);opacity:.8;}
+.arena.track.live::after{background:linear-gradient(180deg,var(--navy-2),var(--red));}
+.arena.field.live::after{background:linear-gradient(180deg,var(--gold),var(--red));}
+
+/* ---------- lower row ---------- */
+.lower{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1.05fr) minmax(0,.9fr);gap:clamp(9px,1vw,16px);min-height:0;}
+.panel{padding:clamp(11px,1.3vh,18px) clamp(13px,1.1vw,20px);display:flex;flex-direction:column;min-height:0;}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.scrollY{overflow-y:auto;min-height:0;flex:1;padding-right:5px;}
+
+.nextcols{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:0;flex:1;}
+.nextcol{display:flex;flex-direction:column;min-height:0;}
+.nextcol .lab{font-size:9.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin-bottom:7px;}
+.nextcol.t .lab{color:var(--navy-2);} .nextcol.f .lab{color:var(--gold-deep);}
+.nx{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;padding:7px 10px;border-radius:11px;margin-bottom:5px;
+  background:var(--surface-blue);box-shadow:var(--clay-in);}
+.nx .tm{font-family:'Outfit';font-size:12px;font-weight:700;color:var(--ink-2);min-width:52px;}
+.nx .ev{font-family:'Outfit';font-size:13.5px;font-weight:600;line-height:1.15;}
+.nx .cg{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin-top:2px;}
+
+.prow{display:flex;align-items:center;gap:10px;padding:7px 11px;border-radius:12px;margin-bottom:5px;
+  background:var(--surface-blue);box-shadow:var(--clay-in);}
+.prow .pos{width:30px;height:30px;border-radius:10px;flex:none;display:grid;place-items:center;
+  font-family:'Outfit';font-weight:700;font-size:11.5px;color:#54380A;background:linear-gradient(150deg,var(--gold-2),var(--gold));box-shadow:var(--clay-sm);}
+.prow.p2 .pos{background:linear-gradient(150deg,#EDEFF3,#C9CFD8);color:#454C57;}
+.prow.p3 .pos{background:linear-gradient(150deg,#E8C7A6,#C79567);color:#5A3B20;}
+.prow .nm{font-family:'Outfit';font-size:14.5px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prow .hs{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.prow .perf{font-family:'Outfit';font-weight:600;font-size:12.5px;color:var(--ink-2);}
+.thumb{width:30px;height:30px;border-radius:9px;object-fit:cover;flex:none;box-shadow:var(--clay-sm);background:var(--surface-dip);}
+
+.hrow{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line-2);}
+.hrow:last-child{border-bottom:0;}
+.hrow .rk{font-family:'Outfit';font-size:12.5px;font-weight:700;color:var(--ink-3);text-align:center;}
+.hname{font-family:'Outfit';font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.hbar{height:6px;border-radius:99px;background:var(--surface-blue);box-shadow:var(--clay-in);margin-top:6px;overflow:hidden;}
+.hbar i{display:block;height:100%;border-radius:99px;transition:width .8s var(--ease);}
+.hmedals{font-size:9.5px;color:var(--ink-3);margin-top:5px;letter-spacing:.06em;display:flex;gap:10px;}
+.hmedals b{font-family:'Outfit';color:var(--ink);font-weight:700;}
+.hpts{font-family:'Outfit';font-size:clamp(19px,1.5vw,26px);font-weight:700;line-height:1;}
+.hpts small{display:block;font-size:8.5px;font-weight:700;letter-spacing:.17em;color:var(--ink-3);margin-top:4px;text-align:right;}
+
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:9px;color:var(--ink-3);}
+.empty-state .big{font-family:'Outfit';font-size:16px;font-weight:600;color:var(--ink-2);}
+.empty-state p{margin:0;font-size:12px;max-width:34ch;line-height:1.5;}
+
+.dock{display:flex;align-items:center;gap:8px;padding:clamp(8px,.9vh,13px) clamp(14px,1.2vw,22px);flex-wrap:wrap;}
+.dock .spacer{flex:1;}
+.dock .hint{font-size:10.5px;color:var(--ink-3);letter-spacing:.05em;}
+
+/* ============================================================
+   MODALS · SCHEDULE EDITOR · FORMS
+   ============================================================ */
+.scrim{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;
+  background:rgba(12,32,58,.36);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:fade .25s var(--ease);}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{width:min(980px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;
+  padding:clamp(18px,2vh,28px) clamp(20px,2vw,32px);animation:modalIn .38s var(--ease-soft);}
+.modal.wide{width:min(1240px,100%);}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.975)}to{opacity:1;transform:none}}
+.modal h3{font-size:clamp(18px,1.5vw,25px);font-weight:700;}
+.mhead{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.mhead .spacer{flex:1;}
+.mbody{overflow-y:auto;min-height:0;flex:1;padding-right:6px;margin:-4px -6px 0 0;}
+.mfoot{display:flex;align-items:center;gap:9px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line-2);flex-wrap:wrap;}
+.mfoot .spacer{flex:1;}
+
+.field{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.field label{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);}
+.inp{width:100%;padding:10px 13px;border:0;border-radius:12px;font-size:13.5px;
+  background:var(--surface-blue);box-shadow:var(--clay-in);outline:none;transition:box-shadow .18s;}
+.inp:focus{box-shadow:var(--clay-in),0 0 0 2px var(--navy-2);}
+select.inp{appearance:none;cursor:pointer;padding-right:30px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C7A8C' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:11px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;}
+.formsec{padding:14px;border-radius:var(--r-md);background:var(--surface-blue);box-shadow:var(--clay-in);margin-bottom:12px;}
+.formsec>.eyebrow{display:block;margin-bottom:10px;}
+.segs{display:flex;gap:6px;flex-wrap:wrap;}
+.seg{padding:9px 15px;border:0;border-radius:11px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.06em;
+  background:linear-gradient(150deg,var(--surface),var(--surface-dip));box-shadow:var(--clay-sm);color:var(--ink-2);transition:.16s var(--ease);}
+.seg[aria-pressed="true"]{background:linear-gradient(150deg,var(--navy-2),var(--navy));color:#fff;box-shadow:var(--clay-press);}
+.seg.gold[aria-pressed="true"]{background:linear-gradient(150deg,var(--gold-2),var(--gold));color:#54380A;}
+
+/* schedule list */
+.sfilters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.srow{display:grid;grid-template-columns:22px 78px minmax(0,1fr) 108px 96px auto;gap:11px;align-items:center;
+  padding:9px 11px;border-radius:13px;margin-bottom:5px;background:var(--surface-blue);box-shadow:var(--clay-in);}
+.srow.dragging{opacity:.45;}
+.srow.over{box-shadow:var(--clay-in),0 0 0 2px var(--navy-2);}
+.srow .grip{cursor:grab;color:var(--ink-3);font-size:14px;text-align:center;user-select:none;}
+.srow .tm{font-family:'Outfit';font-weight:700;font-size:13px;}
+.srow .tm small{display:block;font-size:9.5px;font-weight:600;color:var(--ink-3);letter-spacing:.08em;}
+.srow .ev{font-family:'Outfit';font-size:14.5px;font-weight:600;line-height:1.15;}
+.srow .cg{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin-top:2px;}
+.srow .acts{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+.arena-tag{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:8px;
+  background:linear-gradient(150deg,var(--surface),var(--surface-dip));box-shadow:var(--clay-sm);}
+.arena-tag.track{color:var(--navy-2);} .arena-tag.field{color:var(--gold-deep);}
+
+/* photo uploader (carried over from v1) */
+.uploader{position:relative;}
+.relaygrid{display:flex;gap:9px;flex-wrap:wrap;}
+.drop{width:66px;height:82px;border-radius:13px;cursor:pointer;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--surface),var(--surface-dip));box-shadow:var(--clay-sm);border:1.5px dashed var(--line);
+  color:var(--ink-3);text-align:center;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  line-height:1.3;padding:5px;overflow:hidden;position:relative;transition:.18s var(--ease);}
+.drop:hover{transform:translateY(-2px);color:var(--navy-2);}
+.drop.over{border-color:var(--navy-2);box-shadow:var(--clay-sm),0 0 0 3px rgba(23,80,143,.2);}
+.drop.has{border-style:solid;border-color:transparent;padding:0;}
+.drop img{width:100%;height:100%;object-fit:cover;display:block;}
+.drop .busy{position:absolute;inset:0;display:grid;place-items:center;background:rgba(252,250,245,.82);}
+.drop .plus{font-size:18px;line-height:1;margin-bottom:3px;font-weight:400;}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--navy-2);animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.editpop{position:absolute;top:calc(100% + 9px);right:0;z-index:5;width:230px;padding:14px;border-radius:var(--r-md);
+  background:linear-gradient(152deg,var(--surface),var(--surface-dip));
+  box-shadow:12px 16px 36px rgba(14,58,110,.22), -5px -5px 14px rgba(255,255,255,.8);animation:modalIn .24s var(--ease-soft);}
+.stagebox{width:100%;aspect-ratio:3/4;border-radius:12px;overflow:hidden;position:relative;cursor:grab;box-shadow:var(--clay-in);background:var(--surface-blue);}
+.stagebox.drag{cursor:grabbing;}
+.stagebox img{position:absolute;left:50%;top:50%;width:100%;pointer-events:none;user-select:none;}
+input[type=range]{width:100%;accent-color:var(--navy-2);margin:10px 0 8px;}
+.miniact{display:flex;gap:6px;}
+.miniact .btn{flex:1;padding:7px 9px;font-size:11px;}
+
+/* result entry rows */
+.entry{display:grid;grid-template-columns:42px minmax(0,1.4fr) minmax(0,.9fr) 104px 74px 66px;gap:10px;align-items:end;
+  padding:12px;border-radius:var(--r-md);background:var(--surface-blue);box-shadow:var(--clay-in);margin-bottom:10px;}
+.entry .posbadge{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-family:'Outfit';font-weight:700;font-size:13px;
+  color:#54380A;background:linear-gradient(150deg,var(--gold-2),var(--gold));box-shadow:var(--clay-sm);}
+.entry.e2 .posbadge{background:linear-gradient(150deg,#EDEFF3,#C9CFD8);color:#454C57;}
+.entry.e3 .posbadge{background:linear-gradient(150deg,#E8C7A6,#C79567);color:#5A3B20;}
+
+/* toasts */
+#toasts{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:95;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;}
+.toast{padding:11px 18px;border-radius:13px;font-size:13px;font-weight:600;color:#fff;
+  background:linear-gradient(150deg,var(--navy-2),var(--navy-ink));box-shadow:0 14px 30px rgba(10,42,80,.3);
+  animation:toastIn .3s var(--ease-soft);max-width:520px;}
+.toast.warn{background:linear-gradient(150deg,#D98B1E,#A5600A);}
+.toast.err{background:linear-gradient(150deg,#D0503F,#93301F);}
+.toast.ok{background:linear-gradient(150deg,#46866D,#2C5C49);}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+
+/* Podium results: reveal 1st, then 2nd, then 3rd; keep earlier places visible. */
+.vm-stage.equal-results{display:flex;align-items:center;justify-content:center;overflow:hidden;padding:clamp(10px,1.8vh,22px) clamp(18px,3vw,48px);}
+.vm-results-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,30px);width:100%;max-width:1420px;height:min(72vh,730px);margin:0 auto;align-items:end;}
+.vm-result-card{--podium-height:68vh;min-width:0;height:min(var(--podium-height),100%);max-height:100%;display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(7px,1.1vh,13px);padding:clamp(10px,1.5vw,22px);border:1px solid var(--line);border-radius:22px;background:linear-gradient(150deg,var(--surface),var(--surface-dip));box-shadow:var(--clay-sm);opacity:0;transform:translateY(48px) scale(.97);animation:podiumReveal .9s var(--ease-soft) var(--reveal-delay,1.4s) both;}
+.vm-result-card.place-1{--podium-height:68vh;border-color:rgba(239,176,23,.55);box-shadow:var(--clay-sm),0 14px 40px rgba(214,150,10,.18);}
+.vm-result-card.place-2{--podium-height:61vh;}
+.vm-result-card.place-3{--podium-height:54vh;}
+@keyframes podiumReveal{from{opacity:0;transform:translateY(48px) scale(.97);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.vm-result-photo{width:100%;flex:1 1 auto;min-height:0;border-radius:15px;overflow:hidden;background:var(--surface-blue);display:grid;place-items:center;}
+.vm-result-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.vm-result-place{font-family:'Outfit';font-size:clamp(20px,2.4vw,38px);font-weight:800;line-height:1;color:var(--gold-deep);flex:0 0 auto;}
+.vm-result-card.place-2 .vm-result-place{font-size:clamp(18px,2.1vw,33px);}
+.vm-result-card.place-3 .vm-result-place{font-size:clamp(17px,1.9vw,29px);}
+.vm-result-name{font-family:'Outfit';font-weight:700;font-size:clamp(19px,2vw,32px);line-height:1.1;overflow-wrap:anywhere;flex:0 0 auto;}
+.vm-result-meta{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;flex:0 0 auto;}
+.vm-result-card .house-badge,.vm-result-card .medal-chip{font-size:clamp(10px,.9vw,14px);}
+.vm-result-card .vm-perf{flex:0 0 auto;}
+.vm.skip-intro .vm-result-card{opacity:1;transform:none;animation:none;filter:none;}
+@media(max-width:760px){.vm-stage.equal-results{overflow:auto;}.vm-results-grid{height:auto;min-height:0;grid-template-columns:1fr;align-items:stretch;max-width:560px;}.vm-result-card,.vm-result-card.place-1,.vm-result-card.place-2,.vm-result-card.place-3{height:auto;min-height:440px;max-height:none;}.vm-result-photo{flex:none;height:260px;}.vm-foot{flex-wrap:wrap;}}
+@media(max-width:480px){.vm-result-card,.vm-result-card.place-1,.vm-result-card.place-2,.vm-result-card.place-3{min-height:390px;}.vm-result-photo{height:220px;}}
+/* ============================================================
+   VICTORY MOMENT
+   ============================================================ */
+.vm{position:fixed;inset:0;z-index:80;overflow:hidden;background:var(--bg);
+  background-image:radial-gradient(1400px 900px at 78% 6%, var(--bg-tint), transparent 60%),
+                   radial-gradient(1100px 800px at 6% 96%, rgba(239,176,23,.17), transparent 62%);
+  display:flex;flex-direction:column;animation:vmIn 1.05s var(--ease-soft) both;}
+@keyframes vmIn{from{opacity:0;transform:scale(1.03);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+.vm.closing{animation:vmOut 1s var(--ease) both;}
+@keyframes vmOut{to{opacity:0;transform:scale(.985);filter:blur(8px)}}
+.vm-top{display:flex;align-items:center;gap:18px;padding:clamp(18px,2.4vh,32px) clamp(26px,3.2vw,54px) 0;position:relative;z-index:2;
+  opacity:0;animation:riseIn 1.05s var(--ease-soft) var(--d-top,2s) both;}
+.vm-meet{font-size:10px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-3);}
+.vm-eventline{font-family:'Outfit';font-weight:700;font-size:clamp(18px,1.6vw,29px);margin-top:4px;}
+.vm-eventline b{color:var(--gold-deep);}
+.vm-top .spacer{flex:1;}
+.vm-stamp{text-align:right;opacity:.8;}
+.vm-stage{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);align-items:center;
+  gap:clamp(20px,3.2vw,64px);padding:0 clamp(26px,3.4vw,60px);min-height:0;}
+.vm-rail{display:flex;flex-direction:column;gap:clamp(6px,.9vh,14px);min-width:0;}
+.vm-posline{display:flex;align-items:baseline;gap:14px;opacity:0;animation:riseIn 1s var(--ease-soft) var(--d-pos,8s) both;}
+.vm-pos{font-family:'Outfit';font-weight:800;line-height:.82;letter-spacing:-.06em;font-size:clamp(80px,10.5vw,200px);
+  background:linear-gradient(160deg,var(--gold-2),var(--gold) 58%,#C98F0A);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(8px 10px 18px rgba(200,140,10,.28));}
+.vm.silver .vm-pos{background:linear-gradient(160deg,#F2F4F7,#C3CAD4 58%,#9AA3AF);filter:drop-shadow(8px 10px 18px rgba(80,95,115,.25));}
+.vm.bronze .vm-pos{background:linear-gradient(160deg,#EFD0B2,#C08F5F 58%,#9A6B3C);filter:drop-shadow(8px 10px 18px rgba(150,100,55,.25));}
+.vm-pos sup{font-size:.38em;vertical-align:super;}
+.vm-place{font-size:11px;font-weight:800;letter-spacing:.34em;text-transform:uppercase;color:var(--ink-3);
+  writing-mode:vertical-rl;transform:rotate(180deg);align-self:center;}
+.vm-name{font-family:'Outfit';font-weight:700;line-height:.98;letter-spacing:-.035em;font-size:clamp(34px,4.3vw,80px);
+  opacity:0;animation:riseIn 1.1s var(--ease-soft) var(--d-name,12s) both;}
+.vm-sub{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:6px;
+  opacity:0;animation:riseIn 1.1s var(--ease-soft) var(--d-sub,12.5s) both;}
+.house-badge{display:inline-flex;align-items:center;gap:10px;padding:9px 18px 9px 13px;border-radius:14px;
+  background:linear-gradient(150deg,var(--surface),var(--surface-dip));box-shadow:var(--clay-sm);
+  font-family:'Outfit';font-weight:700;font-size:clamp(13px,1.05vw,19px);letter-spacing:.13em;text-transform:uppercase;}
+.medal-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:14px;
+  font-family:'Outfit';font-weight:700;font-size:clamp(12px,.95vw,17px);letter-spacing:.15em;text-transform:uppercase;
+  color:#54380A;background:linear-gradient(150deg,var(--gold-2),var(--gold));
+  box-shadow:7px 9px 18px rgba(214,150,10,.26), inset 0 1px 0 rgba(255,255,255,.5);}
+.vm.silver .medal-chip{background:linear-gradient(150deg,#F2F4F7,#C9CFD8);color:#454C57;}
+.vm.bronze .medal-chip{background:linear-gradient(150deg,#E8C7A6,#C79567);color:#5A3B20;}
+.vm-perf{font-family:'Outfit';font-weight:600;font-size:clamp(14px,1.2vw,21px);color:var(--ink-2);}
+.vm.emphasis .medal-chip{animation:chipGlow 2.6s var(--ease) 2;}
+@keyframes chipGlow{0%,100%{transform:none;filter:none}50%{transform:translateY(-3px) scale(1.02);filter:brightness(1.07)}}
+.vm-achieve{margin-top:clamp(6px,1vh,16px);padding:12px 18px;border-radius:var(--r-md);max-width:620px;
+  background:var(--surface-blue);box-shadow:var(--clay-in);font-size:clamp(11px,.9vw,15px);color:var(--ink-2);letter-spacing:.04em;line-height:1.5;
+  opacity:0;transform:translateY(10px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);}
+.vm.emphasis .vm-achieve{opacity:1;transform:none;}
+.vm-photos{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;height:100%;}
+.frame{position:relative;border-radius:28px;overflow:hidden;background:var(--surface-dip);transform-origin:center;
+  box-shadow:24px 30px 64px rgba(14,58,110,.22), -10px -10px 30px rgba(255,255,255,.7), inset 0 2px 0 rgba(255,255,255,.5);}
+.frame::after{content:'';position:absolute;inset:0;border-radius:28px;pointer-events:none;
+  box-shadow:inset 0 0 0 6px var(--surface), inset 0 0 0 7px rgba(14,58,110,.08);}
+.frame img{position:absolute;left:50%;top:50%;width:100%;display:block;}
+.frame.hero{width:min(40vw,520px);max-height:74vh;aspect-ratio:4/5;
+  opacity:0;animation:photoIn 1.4s var(--ease-soft) var(--d-photo,5s) both, floaty 13s ease-in-out 7s infinite;}
+.frame.hero .inner{position:absolute;inset:0;animation:kb 52s linear 6s both;}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
+@keyframes photoIn{from{opacity:0;transform:translateY(30px) scale(.94);clip-path:inset(12% 0 12% 0 round 28px);filter:blur(6px);}
+  to{opacity:1;transform:none;clip-path:inset(0 0 0 0 round 28px);filter:none;}}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.frame .fcap{position:absolute;left:0;right:0;bottom:0;padding:40px 22px 16px;z-index:2;
+  background:linear-gradient(to top,rgba(10,30,58,.78),transparent);color:#fff;font-family:'Outfit';font-weight:600;
+  font-size:14px;letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:9px;}
+.team .frame{width:min(19vw,250px);aspect-ratio:3/4;border-radius:22px;max-height:64vh;
+  opacity:0;animation:photoIn 1.35s var(--ease-soft) both, floaty 14s ease-in-out infinite;}
+.team .frame::after{border-radius:22px;box-shadow:inset 0 0 0 5px var(--surface), inset 0 0 0 6px rgba(14,58,110,.08);}
+.team .frame:nth-child(1){animation-delay:var(--d-photo,5s),7.5s;rotate:-2.4deg;margin-right:-30px;z-index:1;}
+.team .frame:nth-child(2){animation-delay:calc(var(--d-photo,5s) + .5s),8.2s;z-index:3;scale:1.08;}
+.team .frame:nth-child(3){animation-delay:calc(var(--d-photo,5s) + 1s),9s;rotate:2.4deg;margin-left:-30px;z-index:2;}
+.team .frame:nth-child(4){animation-delay:calc(var(--d-photo,5s) + 1.5s),9.6s;rotate:3.6deg;margin-left:-36px;z-index:0;}
+.nophoto{display:grid;place-items:center;width:100%;height:100%;color:var(--ink-3);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;font-weight:800;text-align:center;padding:20px;}
+.vm-foot{display:flex;align-items:flex-end;gap:22px;padding:0 clamp(26px,3.4vw,60px) clamp(18px,2.4vh,30px);position:relative;z-index:2;}
+.vm-foot .spacer{flex:1;}
+.vm-timer{display:flex;align-items:center;gap:14px;}
+.vm-progress{width:clamp(160px,15vw,280px);height:5px;border-radius:99px;background:var(--surface-blue);box-shadow:var(--clay-in);overflow:hidden;}
+.vm-progress i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--navy-2),var(--gold));}
+.vm-count{font-family:'Outfit';font-weight:700;font-size:16px;color:var(--ink-3);min-width:32px;text-align:right;opacity:0;transition:opacity .8s var(--ease);}
+.vm.outro .vm-count{opacity:1;}
+.vm-ctl{display:flex;gap:8px;}
+/* live-elsewhere ticker: keeps the other arena visible during a ceremony */
+.vm-live-note{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 10px);white-space:nowrap;}
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.vm.preview{--d-top:0s;--d-pos:.1s;--d-name:.2s;--d-sub:.3s;--d-photo:.1s;--d-run:.4s;}
+.vm.preview .frame.hero .inner{animation:none;}
+.preview-tag{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:85;background:var(--surface);box-shadow:var(--clay-sm);}
+
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important;}}
+
+/* ---------- viewport adaptation ---------- */
+@media (max-width:1500px){
+  .lower{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,.85fr);}
+  .srow{grid-template-columns:20px 70px minmax(0,1fr) 94px 86px auto;}
+}
+@media (max-width:1180px){
+  body{overflow:auto;}
+  .app{height:auto;min-height:100vh;grid-template-rows:none;}
+  .arenas{grid-template-columns:1fr !important;}
+  .lower{grid-template-columns:1fr;}
+  .scrollY{max-height:300px;}
+  .vm-stage{grid-template-columns:1fr;align-content:center;}
+  .vm-photos{order:-1;}
+  .frame.hero{width:min(58vw,300px);}
+  .vm-foot{flex-direction:column;align-items:stretch;gap:12px;}
+}
+@media (max-width:820px){
+  .entry{grid-template-columns:42px 1fr;}
+  .entry .uploader{grid-column:1/-1;}
+  .grid3,.grid4{grid-template-columns:1fr 1fr;}
+  .srow{grid-template-columns:1fr;gap:7px;}
+  .nextcols{grid-template-columns:1fr;}
+}
+
+
+
+/* ============================================================
+   NEUMORPHIC VISUAL REFRESH
+   Keeps the Al Azhar navy / gold / warm-cream identity while
+   replacing the heavy clay look with lighter, softer depth.
+   ============================================================ */
+:root {
+  --clay: 8px 9px 20px rgba(14,58,110,.095),
+          -7px -7px 18px rgba(255,255,255,.88),
+          inset 1px 1px 0 rgba(255,255,255,.74);
+  --clay-sm: 4px 5px 12px rgba(14,58,110,.085),
+             -4px -4px 11px rgba(255,255,255,.82),
+             inset 1px 1px 0 rgba(255,255,255,.68);
+  --clay-in: inset 4px 4px 9px rgba(14,58,110,.085),
+             inset -4px -4px 9px rgba(255,255,255,.78);
+  --clay-press: inset 4px 4px 9px rgba(14,58,110,.12),
+                inset -3px -3px 8px rgba(255,255,255,.72);
+}
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  --clay: 9px 10px 22px rgba(0,0,0,.34),
+          -6px -6px 16px rgba(255,255,255,.035),
+          inset 1px 1px 0 rgba(255,255,255,.045);
+  --clay-sm: 4px 5px 12px rgba(0,0,0,.3),
+             -3px -3px 9px rgba(255,255,255,.03),
+             inset 1px 1px 0 rgba(255,255,255,.04);
+  --clay-in: inset 4px 4px 10px rgba(0,0,0,.32),
+             inset -3px -3px 8px rgba(255,255,255,.035);
+  --clay-press: inset 4px 4px 10px rgba(0,0,0,.4),
+                inset -3px -3px 8px rgba(255,255,255,.025);
+}
+
+.clay {
+  background: linear-gradient(145deg, var(--surface), var(--surface-dip));
+  border: 1px solid var(--line-2);
+  box-shadow: var(--clay);
+}
+.topbar {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-blue) 100%);
+  box-shadow: var(--clay), inset 0 1px 0 rgba(255,255,255,.68);
+}
+.topbar::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-2), transparent);
+  opacity: .88;
+}
+.crest {
+  border: 1px solid rgba(14,58,110,.12);
+  box-shadow: 5px 6px 14px rgba(14,58,110,.13),
+              -4px -4px 11px rgba(255,255,255,.88),
+              inset 0 1px 0 rgba(255,255,255,.95);
+}
+.brand { min-width: 0; }
+.brand h1 { letter-spacing: -.025em; }
+.brand .sub { letter-spacing: .19em; }
+.dept-credit {
+  width: fit-content;
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+  padding: 5px 10px 5px 9px;
+  border: 1px solid rgba(239,176,23,.52);
+  border-radius: 10px;
+  color: var(--gold-deep);
+  background: linear-gradient(135deg, rgba(255,208,107,.26), rgba(239,176,23,.09));
+  box-shadow: 0 0 0 1px rgba(239,176,23,.08),
+              0 0 15px rgba(239,176,23,.22),
+              inset 0 1px 0 rgba(255,255,255,.82);
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(9px, .62vw, 11px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: .105em;
+  text-transform: uppercase;
+  animation: departmentGlow 3.4s ease-in-out infinite;
+}
+.dept-credit::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 6px;
+  background: var(--gold);
+  box-shadow: 0 0 7px rgba(239,176,23,.8), 0 0 13px rgba(239,176,23,.48);
+}
+@keyframes departmentGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(239,176,23,.07),
+                0 0 11px rgba(239,176,23,.16),
+                inset 0 1px 0 rgba(255,255,255,.78);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(239,176,23,.18),
+                0 0 20px rgba(239,176,23,.34),
+                inset 0 1px 0 rgba(255,255,255,.9);
+  }
+}
+.btn, .seg, .pill, .nx, .prow, .srow, .entry, .formsec, .arena-tag {
+  transition: box-shadow .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease);
+}
+.btn:hover, .seg:hover { box-shadow: var(--clay), 0 0 0 1px rgba(23,80,143,.06); }
+.pill { border: 1px solid var(--line-2); }
+.nx, .prow, .srow, .entry, .formsec {
+  border: 1px solid var(--line-2);
+}
+.arena, .panel {
+  border: 1px solid var(--line-2);
+}
+.arena h2 { text-wrap: balance; }
+.inp {
+  border: 1px solid var(--line-2);
+  background: linear-gradient(145deg, var(--surface-blue), var(--surface));
+}
+.inp:focus-visible, button:focus-visible, .seg:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+}
+.frame {
+  box-shadow: 16px 20px 48px rgba(14,58,110,.18),
+              -7px -7px 22px rgba(255,255,255,.54),
+              inset 0 1px 0 rgba(255,255,255,.48);
+}
+
+@media (max-width: 1180px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar .spacer { display: none; }
+  .clock { margin-left: auto; }
+  .tb-actions { width: 100%; justify-content: flex-end; flex-wrap: wrap; }
+  .dept-credit { font-size: 9px; letter-spacing: .08em; }
+}
+@media (max-width: 560px) {
+  .topbar { gap: 10px; }
+  .brand { flex: 1 1 calc(100% - 65px); }
+  .brand h1 { font-size: 16px; }
+  .brand .sub { font-size: 8.5px; }
+  .dept-credit { padding: 5px 7px; font-size: 8px; }
+  .clock { margin-left: 0; }
+  .tb-actions .btn { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dept-credit { animation: none; }
+}
+
+
+
+/* ============================================================
+   AETHRIX SIGNATURE + REFINED, HUMAN-SCALE MOTION
+   A quiet maker's mark that belongs to the existing dashboard.
+   No dashboard sections, controls, or event workflows are replaced.
+   ============================================================ */
+:root {
+  --motion-premium: cubic-bezier(.2,.72,.25,1);
+  --aethrix-gold-halo: rgba(239,176,23,.15);
+}
+:root[data-theme="dark"] {
+  --aethrix-gold-halo: rgba(245,194,69,.13);
+}
+.clay,
+.btn,
+.nx,
+.prow,
+.srow,
+.entry,
+.formsec,
+.pill,
+.seg,
+.arena-tag {
+  transition-duration: .28s;
+  transition-timing-function: var(--motion-premium, var(--ease));
+}
+.arena, .panel, .topbar, .dock {
+  transition: border-color .34s var(--motion-premium),
+              box-shadow .34s var(--motion-premium),
+              background-color .34s var(--motion-premium);
+}
+.arena:hover, .panel:hover {
+  border-color: rgba(239,176,23,.18);
+  box-shadow: var(--clay), 0 8px 24px rgba(4,15,29,.08);
+}
+:root[data-theme="dark"] .arena:hover,
+:root[data-theme="dark"] .panel:hover {
+  border-color: rgba(245,194,69,.23);
+  box-shadow: var(--clay), 0 0 0 1px rgba(245,194,69,.035), 0 12px 28px rgba(0,0,0,.14);
+}
+.btn:focus-visible, .seg:focus-visible, .inp:focus-visible {
+  outline-offset: 3px;
+  transition: outline-offset .18s var(--motion-premium);
+}
+.dept-credit {
+  position: relative;
+  animation: departmentGlow 4.2s ease-in-out infinite;
+  transition: border-color .35s var(--motion-premium), transform .35s var(--motion-premium);
+}
+.dept-credit:hover { border-color: rgba(255,208,107,.82); transform: translateY(-1px); }
+.dock {
+  position: relative;
+  isolation: isolate;
+}
+.dock::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 12%; right: 12%; bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(239,176,23,.10), rgba(239,176,23,.42), rgba(239,176,23,.10), transparent);
+}
+.aethrix-signature {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-height: 42px;
+  margin-left: 5px;
+  padding: 2px 4px 2px 13px;
+  border-left: 1px solid rgba(239,176,23,.24);
+  border-radius: 0 10px 10px 0;
+  isolation: isolate;
+  transition: border-color .4s var(--motion-premium), transform .4s var(--motion-premium);
+}
+.aethrix-signature::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -2px -6px -2px 2px;
+  border-radius: 10px;
+  background: radial-gradient(ellipse at 24% 50%, var(--aethrix-gold-halo), transparent 75%);
+  opacity: .66;
+  pointer-events: none;
+  transition: opacity .4s var(--motion-premium);
+}
+.aethrix-signature__mark {
+  display: block;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  object-fit: contain;
+  opacity: .83;
+  filter: drop-shadow(0 0 7px rgba(239,176,23,.14));
+  transition: opacity .4s var(--motion-premium),
+              transform .65s var(--motion-premium),
+              filter .4s var(--motion-premium);
+}
+.aethrix-signature__copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.aethrix-signature__powered {
+  color: var(--ink-3);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: .19em;
+}
+.aethrix-signature__name {
+  color: var(--gold-deep);
+  font-family: 'Outfit', sans-serif;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-shadow: 0 0 12px rgba(239,176,23,.12);
+}
+.aethrix-signature__legal {
+  color: var(--ink-2);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .025em;
+}
+.aethrix-signature:hover { border-left-color: rgba(239,176,23,.55); transform: translateY(-1px); }
+.aethrix-signature:hover::before { opacity: 1; }
+.aethrix-signature:hover .aethrix-signature__mark {
+  opacity: 1;
+  transform: translateY(-1px) scale(1.035);
+  filter: drop-shadow(0 0 11px rgba(239,176,23,.30));
+}
+@media (max-width: 1420px) {
+  .dock .hint { max-width: 35ch; line-height: 1.35; }
+  .aethrix-signature { gap: 6px; padding-left: 10px; }
+  .aethrix-signature__mark { width: 34px; height: 34px; flex-basis: 34px; }
+}
+@media (max-width: 1180px) {
+  .aethrix-signature { margin-left: auto; }
+  .dock .hint { max-width: none; }
+}
+@media (max-width: 560px) {
+  .aethrix-signature { flex-basis: 100%; margin: 6px 0 0; padding: 6px 0 0; border-left: 0; border-top: 1px solid rgba(239,176,23,.2); }
+  .aethrix-signature__mark { width: 38px; height: 38px; flex-basis: 38px; }
+  .dock .hint { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dept-credit { animation: none !important; }
+  .arena, .panel, .topbar, .dock, .btn, .aethrix-signature, .aethrix-signature__mark,
+  .aethrix-signature::before, .dept-credit {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modalRoot"></div>
+<div id="vmRoot"></div>
+<div id="toasts"></div>
+<script>
+/* ============================================================
+   AL AZHAR CENTRAL SCHOOL, MALA — ANNUAL ATHLETIC MEET
+   script.js · v2 live control system
+
+   1. OFFICIAL DATA        programme, houses, arenas
+   2. STORE                persisted state (competitions, results, scoring, ceremony)
+   3. COMPETITION MODEL    status machine + real clock timing
+   4. HELPERS              escaping, toasts, confirm, icons
+   5. DASHBOARD            single-screen live control display
+   6. SCHEDULE EDITOR      add / edit / reorder / start / pause / complete
+   7. SCORING SETTINGS     operator-defined points
+   8. PHOTO UPLOADER       drag-drop, downscale, reposition, zoom
+   9. RESULT ENTRY         per-competition results + winner photos
+  10. VICTORY MOMENT       60-second enforced ceremony, survives refresh
+  11. BOOT                 restore state, tick clocks, shortcuts
+   ============================================================ */
+
+/* ============================================================
+   1. OFFICIAL DATA
+   ============================================================ */
+const LOGO = "data:image/webp;base64,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";
+const AETHRIX_MARK = "data:image/webp;base64,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";
+
+const MEET = { school:"Al Azhar Central School, Mala", title:"Annual Athletic Meet" };
+
+const HOUSES = {
+  Falcon:{color:"var(--h-falcon)"}, Titan:{color:"var(--h-titan)"},
+  Phoenix:{color:"var(--h-phoenix)"}, Orion:{color:"var(--h-orion)"}
+};
+const HOUSE_KEYS = Object.keys(HOUSES);
+
+/* Official programme — from the meet poster. Nothing here is invented. */
+const PROGRAMME = {
+  "Under-12":{ Boys:["50 M","100 M","200 M","Long Jump","High Jump","Shot Put","4 × 100 M Relay"],
+               Girls:["50 M","100 M","200 M","Long Jump","High Jump","Shot Put","4 × 100 M Relay"] },
+  "Under-14":{ Boys:["100 M","200 M","400 M","800 M","Long Jump","High Jump","Shot Put","4 × 100 M Relay"],
+               Girls:["100 M","200 M","400 M","800 M","Long Jump","High Jump","Shot Put","4 × 100 M Relay"] },
+  "Under-17":{ Boys:["100 M","200 M","400 M","800 M","1,500 M","3,000 M","Long Jump","High Jump","Triple Jump","Shot Put","Discus Throw","Javelin Throw","4 × 100 M Relay"],
+               Girls:["100 M","200 M","400 M","800 M","1,500 M","3,000 M","Long Jump","High Jump","Triple Jump","Shot Put","Discus Throw","Javelin Throw","4 × 100 M Relay"] },
+  "Under-19":{ Boys:["100 M","200 M","400 M","800 M","1,500 M","5,000 M","Long Jump","High Jump","Triple Jump","Shot Put","Discus Throw","Javelin Throw","4 × 100 M Relay"],
+               Girls:["100 M","200 M","400 M","800 M","1,500 M","3,000 M","Long Jump","High Jump","Triple Jump","Shot Put","Discus Throw","Javelin Throw","4 × 100 M Relay"] }
+};
+const CATS = Object.keys(PROGRAMME);
+const GENDERS = ["Boys","Girls"];
+const STATUSES = ["scheduled","ready","live","paused","completed","delayed","cancelled"];
+const STATUS_LABEL = {scheduled:"Scheduled",ready:"Ready",live:"Live",paused:"Paused",
+                     completed:"Completed",delayed:"Delayed",cancelled:"Cancelled"};
+
+const isRelay = n => /relay/i.test(n||"");
+const isFieldEvent = n => /(jump|throw|shot put|discus|javelin)/i.test(n||"");
+const perfLabel = n => /high jump/i.test(n||"") ? "Height" : isFieldEvent(n) ? "Distance" : "Time";
+const perfHint  = n => perfLabel(n)==="Time" ? "e.g. 52.31 s" : perfLabel(n)==="Height" ? "e.g. 1.62 m" : "e.g. 11.84 m";
+
+/* ============================================================
+   2. STORE
+   ============================================================ */
+const KEY = "azhar_meet_v3";
+const DEFAULT_ARENAS = [
+  {id:"track", name:"Track", type:"track"},
+  {id:"fieldA", name:"Field A", type:"field"}
+];
+const Store = {
+  state:{
+    comps:[], results:[],
+    arenas:DEFAULT_ARENAS.map(a=>({...a})),
+    scoring:{ configured:false, individual:{1:0,2:0,3:0}, relay:{1:0,2:0,3:0}, houseAdjustments:{Falcon:0,Titan:0,Phoenix:0,Orion:0}, houseScoreBases:{} },
+    vm:null, theme:null, meetTitle:"Annual Athletic Meet"
+  },
+  warned:false,
+  load(){
+    try{
+      const raw=localStorage.getItem(KEY);
+      if(raw){ const s=JSON.parse(raw); Object.assign(this.state,s);
+        if(!this.state.arenas||!this.state.arenas.length) this.state.arenas=DEFAULT_ARENAS.map(a=>({...a}));
+        if(!this.state.scoring.houseAdjustments) this.state.scoring.houseAdjustments={Falcon:0,Titan:0,Phoenix:0,Orion:0};
+        if(!this.state.scoring.houseScoreBases) this.state.scoring.houseScoreBases={}; }
+    }catch(e){}
+    if(this.state.theme) document.documentElement.dataset.theme=this.state.theme;
+  },
+  save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(this.state)); }
+    catch(e){ if(!this.warned){ this.warned=true;
+      toast("Device storage is full — new winner photos may not survive a refresh.","warn",6000); } }
+  },
+  /* competitions */
+  comps(){ return this.state.comps; },
+  comp(id){ return this.state.comps.find(c=>c.id===id); },
+  arena(id){ return this.state.arenas.find(a=>a.id===id) || this.state.arenas[0]; },
+  ordered(list){ return [...(list||this.state.comps)].sort((a,b)=>a.order-b.order); },
+  addComp(c){
+    c.id = c.id || "c"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    c.order = this.state.comps.length ? Math.max(...this.state.comps.map(x=>x.order))+1 : 0;
+    this.state.comps.push(c); this.save(); return c;
+  },
+  removeComp(id){
+    const c=this.comp(id); if(!c) return;
+    if(c.resultId) this.state.results=this.state.results.filter(r=>r.id!==c.resultId);
+    this.state.comps=this.state.comps.filter(x=>x.id!==id); this.save();
+  },
+  reorder(dragId,targetId){
+    const list=this.ordered(), from=list.findIndex(c=>c.id===dragId), to=list.findIndex(c=>c.id===targetId);
+    if(from<0||to<0||from===to) return;
+    const [m]=list.splice(from,1); list.splice(to,0,m);
+    list.forEach((c,i)=>c.order=i); this.save();
+  },
+  move(id,dir){
+    const list=this.ordered(), i=list.findIndex(c=>c.id===id), j=i+dir;
+    if(i<0||j<0||j>=list.length) return false;
+    [list[i],list[j]]=[list[j],list[i]]; list.forEach((c,k)=>c.order=k); this.save(); return true;
+  },
+  /* results */
+  result(id){ return this.state.results.find(r=>r.id===id); },
+  latestResult(){
+    const rs=[...this.state.results].sort((a,b)=>b.timestamp-a.timestamp); return rs[0]||null;
+  },
+  publishResult(result, comp){
+    const old=this.state.results.findIndex(r=>r.compId===result.compId);
+    if(old>=0) this.state.results.splice(old,1,result); else this.state.results.push(result);
+    if(comp){ comp.resultId=result.id;
+      if(comp.status!=="completed"){ comp.status="completed"; comp.actualEnd=comp.actualEnd||Date.now(); } }
+    this.save();
+  },
+  /* scoring — never assumed, always operator-defined */
+  pointsFor(position, relay){
+    const s=this.state.scoring; if(!s.configured) return 0;
+    return Number((relay?s.relay:s.individual)[position]||0);
+  },
+  standings(){
+    const tbl={}; HOUSE_KEYS.forEach(h=>tbl[h]={house:h,pts:0,g:0,s:0,b:0});
+    this.state.results.forEach(r=>{
+      r.places.forEach(p=>{
+        if(!p.house||!tbl[p.house]||!p.studentName) return;
+        tbl[p.house].pts += Number(p.points)||0;
+        tbl[p.house][p.position===1?'g':p.position===2?'s':'b']++;
+      });
+    });
+    HOUSE_KEYS.forEach(h=>{
+      const autoPoints=tbl[h].pts;
+      const base=this.state.scoring.houseScoreBases?.[h];
+      if(base && Number.isFinite(Number(base.autoAt)) && Number.isFinite(Number(base.scoreAt))){
+        // Manual actions change the score earned up to that moment; later automatic event points still add normally.
+        tbl[h].pts=Math.max(0, Number(base.scoreAt) + (autoPoints-Number(base.autoAt)));
+      } else {
+        tbl[h].pts=Math.max(0, autoPoints + Number(this.state.scoring.houseAdjustments?.[h]||0));
+      }
+      tbl[h].adjustment=Number(this.state.scoring.houseAdjustments?.[h]||0);
+    });
+    return Object.values(tbl).sort((a,b)=>b.pts-a.pts||b.g-a.g||b.s-a.s);
+  }
+};
+
+/* ============================================================
+   3. COMPETITION MODEL — real clock, no invented times
+   ============================================================ */
+const Comp = {
+  blank(arenaId){
+    const a=Store.arena(arenaId);
+    return { id:null, arenaId:a.id, type:a.type, category:CATS[1], gender:"Boys", event:"", customName:"",
+      status:"scheduled", scheduledStart:null, scheduledEnd:null, duration:null,
+      actualStart:null, actualEnd:null, pausedMs:0, pauseStart:null,
+      location:"", note:"", resultId:null, delayedFrom:null };
+  },
+  title(c){ return c.customName || c.event || "Untitled competition"; },
+  label(c){ return `${c.category} ${c.gender} · ${this.title(c)}`; },
+  isActive(c){ return c.status==="live"||c.status==="paused"; },
+  elapsed(c){
+    if(!c.actualStart) return 0;
+    const end = c.actualEnd || (c.status==="paused"&&c.pauseStart ? c.pauseStart : Date.now());
+    return Math.max(0, end - c.actualStart - (c.pausedMs||0));
+  },
+  expectedEnd(c){
+    if(c.scheduledEnd) return c.scheduledEnd;
+    if(c.scheduledStart&&c.duration) return c.scheduledStart + c.duration*60000;
+    return null;
+  },
+  start(c){
+    if(c.status==="live") return;
+    if(c.status==="paused") return this.resume(c);
+    c.actualStart=Date.now(); c.actualEnd=null; c.pausedMs=0; c.pauseStart=null; c.status="live"; Store.save();
+  },
+  pause(c){ if(c.status!=="live") return; c.pauseStart=Date.now(); c.status="paused"; Store.save(); },
+  resume(c){ if(c.status!=="paused") return;
+    c.pausedMs=(c.pausedMs||0)+(Date.now()-(c.pauseStart||Date.now())); c.pauseStart=null; c.status="live"; Store.save(); },
+  complete(c){ if(c.status==="paused") this.resume(c);
+    c.actualEnd=Date.now(); c.status="completed"; Store.save(); },
+  reopen(c){ c.status=c.actualStart?"live":"ready"; c.actualEnd=null; Store.save(); },
+  setStatus(c,s){
+    if(s==="live") return this.start(c);
+    if(s==="paused") return this.pause(c);
+    if(s==="completed") return this.complete(c);
+    c.status=s; Store.save();
+  }
+};
+
+/* ============================================================
+   4. HELPERS
+   ============================================================ */
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const pad = n => String(n).padStart(2,"0");
+const fmtClock = ts => ts ? new Date(ts).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit',hour12:true}) : "—";
+const fmtHHMM = ts => { if(!ts) return ""; const d=new Date(ts); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+function hhmmToTs(v, ref){
+  if(!v) return null;
+  const [h,m]=v.split(":").map(Number); const d=ref?new Date(ref):new Date();
+  d.setHours(h,m,0,0); return d.getTime();
+}
+const fmtDur = ms => { const s=Math.floor(ms/1000); return `${pad(Math.floor(s/60))}:${pad(s%60)}`; };
+const ORD = n => n===1?"1<sup>ST</sup>":n===2?"2<sup>ND</sup>":"3<sup>RD</sup>";
+const ORDTXT = n => n===1?"1st":n===2?"2nd":"3rd";
+const MEDAL = n => n===1?"Gold":n===2?"Silver":"Bronze";
+const houseDot = (h,size=10)=>`<span class="hbadge" style="width:${size}px;height:${size}px;background:${HOUSES[h]?HOUSES[h].color:'var(--ink-3)'}"></span>`;
+function applyPhoto(img,p){
+  if(!p) return;
+  img.src=p.src;
+  img.style.cssText=`position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:cover;`+
+    `transform:translate(-50%,-50%) translate(${p.ox||0}%,${p.oy||0}%) scale(${p.zoom||1});`;
+}
+function toast(msg,kind="",ms=3400){
+  const t=document.createElement('div'); t.className="toast "+kind; t.textContent=msg;
+  $('#toasts').appendChild(t);
+  setTimeout(()=>{ t.style.transition="opacity .4s,transform .4s"; t.style.opacity=0; t.style.transform="translateY(10px)";
+    setTimeout(()=>t.remove(),420); }, ms);
+}
+function confirmDo(title, body, okLabel, cb){
+  const host=document.createElement('div'); host.className="scrim"; host.style.zIndex=70;
+  host.innerHTML=`<div class="clay modal" style="width:min(460px,100%)">
+    <h3>${esc(title)}</h3>
+    <p style="color:var(--ink-2);font-size:13.5px;line-height:1.55;margin:12px 0 0">${esc(body)}</p>
+    <div class="mfoot"><div class="spacer"></div>
+      <button class="btn" data-x="no">Cancel</button>
+      <button class="btn btn-primary" data-x="yes">${esc(okLabel)}</button></div></div>`;
+  document.body.appendChild(host);
+  host.addEventListener('click',e=>{
+    if(e.target===host||e.target.dataset.x==="no") host.remove();
+    if(e.target.dataset.x==="yes"){ host.remove(); cb(); }
+  });
+}
+const ICON={
+  medal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M8.5 9L6 2h4l2 4 2-4h4l-2.5 7"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>',
+  pause:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.2v14H7zM13.8 5H17v14h-3.2z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 7"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
+  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.6 1.6 0 00-2.7 1.1V21a2 2 0 11-4 0v-.1A1.6 1.6 0 007.5 19.4l-.1.1a2 2 0 11-2.8-2.8l.1-.1A1.6 1.6 0 003 15H3a2 2 0 110-4h.1A1.6 1.6 0 004.6 7.5l-.1-.1a2 2 0 112.8-2.8l.1.1A1.6 1.6 0 009 3.6V3a2 2 0 114 0v.1A1.6 1.6 0 0016.5 4.6l.1-.1a2 2 0 112.8 2.8l-.1.1A1.6 1.6 0 0021 9h.1a2 2 0 110 4H21a1.6 1.6 0 00-1.6 1z"/></svg>',
+  full:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+  moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>'
+};
+
+/* ============================================================
+   5. DASHBOARD — one screen, never scrolls
+   ============================================================ */
+const Dashboard = {
+  activeIn(arenaId){
+    return Store.ordered().filter(c=>c.arenaId===arenaId && Comp.isActive(c))
+      .sort((a,b)=>(b.actualStart||0)-(a.actualStart||0))[0] || null;
+  },
+  queueIn(arenaId){
+    return Store.ordered().filter(c=>c.arenaId===arenaId &&
+      ["scheduled","ready","delayed"].includes(c.status))
+      .sort((a,b)=>(a.scheduledStart||Infinity)-(b.scheduledStart||Infinity) || a.order-b.order);
+  },
+  queueByType(type){
+    const ids=Store.state.arenas.filter(a=>a.type===type).map(a=>a.id);
+    return Store.ordered().filter(c=>ids.includes(c.arenaId) && ["scheduled","ready","delayed"].includes(c.status))
+      .sort((a,b)=>(a.scheduledStart||Infinity)-(b.scheduledStart||Infinity) || a.order-b.order);
+  },
+
+  render(){
+    const arenas=Store.state.arenas, latest=Store.latestResult();
+    const cols=Math.min(arenas.length,3);
+    $('#app').innerHTML=`
+    <div class="app">
+      <header class="clay topbar">
+        <div class="crest"><img src="${LOGO}" alt=""></div>
+        <div class="brand"><h1>${esc(MEET.school)}</h1>
+          <div class="sub">${esc(Store.state.meetTitle||MEET.title)}</div>
+          <div class="dept-credit" aria-label="Conducted by Physical Education department">
+            <span class="dept-credit__text">Conducted by Physical Education department</span>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="clock"><div class="t" id="clockT">--:--</div><div class="d" id="clockD"></div></div>
+        <div class="tb-actions">
+          <button class="btn btn-icon" id="btnTheme" title="Switch theme">${ICON.moon}</button>
+          <button class="btn btn-icon" id="btnFull" title="Fullscreen">${ICON.full}</button>
+          <button class="btn" id="btnSchedule">${ICON.list}Schedule</button>
+          <button class="btn btn-primary" id="btnAdd">${ICON.plus}Add event</button>
+        </div>
+      </header>
+
+      <section class="arenas" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">
+        ${arenas.map(a=>this.arenaCard(a)).join('')}
+      </section>
+
+      <section class="lower">
+        <div class="clay panel">
+          <div class="phead"><span class="eyebrow">Coming up</span>
+            <button class="btn btn-xs" id="btnSchedule2">Manage</button></div>
+          <div class="nextcols">
+            ${this.nextCol("track","Track")}
+            ${this.nextCol("field","Field")}
+          </div>
+        </div>
+
+        <div class="clay panel">
+          <div class="phead"><span class="eyebrow">Latest result</span>
+            ${latest?`<button class="btn btn-xs" id="btnReplay">${ICON.play}Replay</button>`:''}</div>
+          ${latest?`
+            <div style="font-family:'Outfit';font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-bottom:9px">
+              ${esc(latest.category)} ${esc(latest.gender)} · ${esc(latest.event)}</div>
+            <div class="scrollY">
+              ${latest.places.filter(p=>p.studentName).map(p=>`
+                <div class="prow p${p.position}">
+                  <div class="pos">${ORDTXT(p.position).toUpperCase()}</div>
+                  ${p.photos&&p.photos[0]?`<img class="thumb" src="${p.photos[0].src}" alt="">`:''}
+                  <div class="nm">${esc(p.studentName)}</div>
+                  <div class="hs" style="color:${HOUSES[p.house]?HOUSES[p.house].color:'var(--ink-3)'}">${houseDot(p.house,8)}${esc(p.house||'')}</div>
+                  <div class="perf">${esc(p.perf||'')}</div>
+                </div>`).join('')}
+            </div>`
+          :`<div class="empty-state"><div class="big">No results published yet</div>
+              <p>Complete a competition, then use <b>Result</b> to record the podium and run the ceremony.</p></div>`}
+        </div>
+
+        <div class="clay panel">
+          <div class="phead"><span class="eyebrow">House standings</span>
+            <button class="btn btn-xs" id="btnScoring">${ICON.gear}Points</button></div>
+          ${Store.state.scoring.configured || Store.state.results.length ? `
+            <div class="scrollY">${(()=>{ const t=Store.standings(), max=Math.max(1,t[0].pts);
+              return t.map((h,i)=>`<div class="hrow">
+                <div class="rk">${i+1}</div>
+                <div><div class="hname">${houseDot(h.house,10)}${h.house}</div>
+                  <div class="hbar"><i style="width:${Math.round(h.pts/max*100)}%;background:${HOUSES[h.house].color}"></i></div>
+                  <div class="hmedals"><span><b>${h.g}</b> G</span><span><b>${h.s}</b> S</span><span><b>${h.b}</b> B</span></div></div>
+                <div class="hpts">${h.pts}<small>PTS</small></div></div>`).join(''); })()}</div>`
+          :`<div class="empty-state"><div class="big">Points not set</div>
+              <p>Set how many points a 1st, 2nd and 3rd place is worth at this meet. Standings then build from published results only.</p>
+              <button class="btn btn-gold" id="btnScoring2">Set points</button></div>`}
+        </div>
+      </section>
+
+      <footer class="clay dock">
+        <span class="eyebrow">Control</span>
+        <button class="btn" id="btnAdd2">${ICON.plus}Add event</button>
+        <button class="btn" id="btnSchedule3">${ICON.list}Schedule &amp; timing</button>
+        ${latest?`<button class="btn" id="btnReplay2">${ICON.play}Replay ceremony</button>`:''}
+        <div class="spacer"></div>
+        <span class="hint">Ceremony holds a full 60 seconds · live competitions keep running behind it</span>
+        <div class="aethrix-signature" aria-label="AethrixOS, Aethrix Pvt. Ltd.">
+          <img class="aethrix-signature__mark" src="${AETHRIX_MARK}" alt="AethrixOS logo">
+          <div class="aethrix-signature__copy">
+            <span class="aethrix-signature__powered">POWERED BY</span>
+            <span class="aethrix-signature__name">AETHRIXOS</span>
+            <span class="aethrix-signature__legal">Aethrix Pvt. Ltd.</span>
+          </div>
+        </div>
+      </footer>
+    </div>`;
+    this.bind(); Ticker.paint();
+  },
+
+  arenaCard(a){
+    const c=this.activeIn(a.id), q=this.queueIn(a.id), next=q[0];
+    if(!c){
+      return `<div class="clay arena ${a.type}">
+        <div class="motif"></div>
+        <div class="ahead"><span class="aname">${esc(a.name)}</span>
+          <span class="chip s-scheduled">Idle</span></div>
+        <div class="empty">
+          <div class="msg">No ${a.type==='track'?'track':'field'} event running</div>
+          ${next?`<div>
+            <div class="eyebrow" style="margin-bottom:6px">Next in this area</div>
+            <div style="font-family:'Outfit';font-size:clamp(16px,1.4vw,24px);font-weight:600">${esc(Comp.title(next))}</div>
+            <div class="cat" style="margin-top:4px">${esc(next.category)} · ${esc(next.gender)}${next.scheduledStart?' · '+fmtClock(next.scheduledStart):' · time not set'}</div>
+          </div>
+          <div class="ctl"><button class="btn btn-gold" data-start="${next.id}">${ICON.play}Start now</button>
+            <button class="btn" data-edit="${next.id}">Edit</button></div>`
+          :`<p style="font-size:12.5px;color:var(--ink-3);max-width:40ch;margin:0;line-height:1.5">Nothing queued for this area. Add a competition from the official programme to get started.</p>
+            <div class="ctl"><button class="btn" data-addto="${a.id}">${ICON.plus}Add competition</button></div>`}
+        </div></div>`;
+    }
+    const live=c.status==="live";
+    return `<div class="clay arena ${a.type} ${live?'live':''}">
+      <div class="motif"></div>
+      <div class="ahead"><span class="aname">${esc(a.name)}</span>
+        <span class="chip s-${c.status}">${live?'<span class="dot live-dot"></span>':''}${STATUS_LABEL[c.status]}</span>
+        ${c.location?`<span class="pill">${esc(c.location)}</span>`:''}
+        <div class="tright"><div class="timer"><span data-elapsed="${c.id}">${fmtDur(Comp.elapsed(c))}</span><small>ELAPSED</small></div></div>
+      </div>
+      <div>
+        <div class="cat">${esc(c.category)} · ${esc(c.gender)}</div>
+        <h2>${esc(Comp.title(c))}</h2>
+        <div class="facts">
+          <span class="pill">${ICON.clock}Started ${fmtClock(c.actualStart)}</span>
+          ${Comp.expectedEnd(c)?`<span class="pill">Expected ${fmtClock(Comp.expectedEnd(c))}</span>`:''}
+          <span class="pill">${perfLabel(Comp.title(c))} result</span>
+        </div>
+      </div>
+      <div class="ctl">
+        ${live?`<button class="btn" data-pause="${c.id}">${ICON.pause}Pause</button>`
+              :`<button class="btn btn-primary" data-resume="${c.id}">${ICON.play}Resume</button>`}
+        <button class="btn" data-complete="${c.id}">${ICON.check}Complete</button>
+        <button class="btn btn-gold" data-result="${c.id}">${ICON.medal}Result</button>
+        <button class="btn" data-edit="${c.id}">Edit</button>
+      </div></div>`;
+  },
+
+  nextCol(type,label){
+    const list=this.queueByType(type).slice(0,4);
+    return `<div class="nextcol ${type[0]}">
+      <div class="lab">${label}</div>
+      ${list.length?list.map(c=>`<div class="nx" data-open="${c.id}">
+          <div class="tm">${c.scheduledStart?fmtClock(c.scheduledStart):'<span class="muted">—</span>'}</div>
+          <div><div class="ev">${esc(Comp.title(c))}</div>
+            <div class="cg">${esc(c.category)} · ${esc(c.gender)}${c.status!=='scheduled'?' · '+STATUS_LABEL[c.status]:''}</div></div>
+        </div>`).join('')
+      :`<p style="font-size:11.5px;color:var(--ink-3);margin:4px 0 0;line-height:1.5">Nothing queued.</p>`}
+    </div>`;
+  },
+
+  bind(){
+    const on=(sel,fn)=>$$(sel).forEach(b=>b.addEventListener('click',fn));
+    ['#btnAdd','#btnAdd2'].forEach(s=>$(s)&&$(s).addEventListener('click',()=>CompForm.open(null)));
+    ['#btnSchedule','#btnSchedule2','#btnSchedule3'].forEach(s=>$(s)&&$(s).addEventListener('click',()=>ScheduleEditor.open()));
+    ['#btnScoring','#btnScoring2'].forEach(s=>$(s)&&$(s).addEventListener('click',()=>Scoring.open()));
+    ['#btnReplay','#btnReplay2'].forEach(s=>$(s)&&$(s).addEventListener('click',()=>VictoryMoment.play(Store.latestResult(),{replay:true})));
+    $('#btnTheme').addEventListener('click',()=>{
+      const t=document.documentElement.dataset.theme==='dark'?'light':'dark';
+      document.documentElement.dataset.theme=t; Store.state.theme=t; Store.save();
+    });
+    $('#btnFull').addEventListener('click',()=>{
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    });
+    on('[data-start]',e=>{ Comp.start(Store.comp(e.currentTarget.dataset.start)); this.render(); toast("Competition started.","ok",2000); });
+    on('[data-pause]',e=>{ Comp.pause(Store.comp(e.currentTarget.dataset.pause)); this.render(); });
+    on('[data-resume]',e=>{ Comp.resume(Store.comp(e.currentTarget.dataset.resume)); this.render(); });
+    on('[data-complete]',e=>{ const c=Store.comp(e.currentTarget.dataset.complete);
+      confirmDo("Complete this competition?",`${Comp.label(c)} will be marked completed. You can still enter or change the result afterwards.`,"Complete",
+        ()=>{ Comp.complete(c); this.render(); ResultEntry.open(c.id); }); });
+    on('[data-result]',e=>ResultEntry.open(e.currentTarget.dataset.result));
+    on('[data-edit]',e=>CompForm.open(e.currentTarget.dataset.edit));
+    on('[data-addto]',e=>CompForm.open(null,e.currentTarget.dataset.addto));
+    on('[data-open]',e=>CompForm.open(e.currentTarget.dataset.open));
+  }
+};
+
+/* live clocks — only the timer text is repainted, never the whole screen */
+const Ticker = {
+  start(){ clearInterval(this.i); this.i=setInterval(()=>this.paint(),500); },
+  paint(){
+    const t=$('#clockT');
+    if(t){ const n=new Date();
+      t.textContent=n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+      $('#clockD').textContent=n.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'}); }
+    $$('[data-elapsed]').forEach(el=>{
+      const c=Store.comp(el.dataset.elapsed); if(c) el.textContent=fmtDur(Comp.elapsed(c));
+    });
+    VictoryMoment.tick();
+  }
+};
+
+/* ============================================================
+   6a. COMPETITION FORM — add / edit, operator-set times
+   ============================================================ */
+const Modal = {
+  open(html, cls=""){ $('#modalRoot').innerHTML=`<div class="scrim" id="scrim"><div class="clay modal ${cls}">${html}</div></div>`;
+    $('#scrim').addEventListener('mousedown',e=>{ if(e.target.id==='scrim') Modal.close(); });
+    document.addEventListener('keydown',this._esc=(e)=>{ if(e.key==='Escape') Modal.close(); });
+    return $('.modal');
+  },
+  close(){ document.removeEventListener('keydown',this._esc||(()=>{})); $('#modalRoot').innerHTML=""; }
+};
+
+const CompForm = {
+  open(id, arenaIdDefault){
+    const existing=id?Store.comp(id):null;
+    this.c = existing ? JSON.parse(JSON.stringify(existing)) : Comp.blank(arenaIdDefault||Store.state.arenas[0].id);
+    this.isNew=!existing; this.endTouched=!!(existing&&existing.scheduledEnd);
+    if(this.isNew && !this.c.event) this.c.event=PROGRAMME[this.c.category][this.c.gender][0];
+    this.paint();
+  },
+  events(){ return PROGRAMME[this.c.category][this.c.gender]; },
+  paint(){
+    const c=this.c, custom=!!c.customName;
+    const m=Modal.open(`
+      <div class="mhead"><div><span class="eyebrow">${this.isNew?'Add competition':'Edit competition'}</span>
+        <h3 style="margin-top:7px">${esc(Comp.title(c))||'New competition'}</h3></div>
+        <div class="spacer"></div><button class="btn btn-icon" data-x="close">✕</button></div>
+      <div class="mbody">
+        <div class="formsec"><span class="eyebrow">Where it runs</span>
+          <div class="segs" id="arenaSegs">
+            ${Store.state.arenas.map(a=>`<button class="seg ${a.type==='field'?'gold':''}" data-arena="${a.id}" aria-pressed="${a.id===c.arenaId}">${esc(a.name)}</button>`).join('')}
+            <button class="seg" data-newarena="1" title="Add another area">+ Area</button>
+          </div>
+          <div class="grid2" style="margin-top:11px">
+            <div class="field"><label>Lane / ground / area detail</label>
+              <input class="inp" id="fLoc" value="${esc(c.location)}" placeholder="e.g. Lanes 1–6, or Pit B"></div>
+            <div class="field"><label>Status</label>
+              <select class="inp" id="fStatus">${STATUSES.map(s=>`<option value="${s}" ${s===c.status?'selected':''}>${STATUS_LABEL[s]}</option>`).join('')}</select></div>
+          </div>
+        </div>
+
+        <div class="formsec"><span class="eyebrow">Which competition</span>
+          <div class="grid3">
+            <div class="field"><label>Category</label>
+              <select class="inp" id="fCat">${CATS.map(x=>`<option ${x===c.category?'selected':''}>${x}</option>`).join('')}</select></div>
+            <div class="field"><label>Gender</label>
+              <select class="inp" id="fGen">${GENDERS.map(x=>`<option ${x===c.gender?'selected':''}>${x}</option>`).join('')}</select></div>
+            <div class="field"><label>Event</label>
+              <select class="inp" id="fEv">
+                ${this.events().map(e=>`<option ${!custom&&e===c.event?'selected':''}>${esc(e)}</option>`).join('')}
+                <option value="__custom" ${custom?'selected':''}>Custom event…</option>
+              </select></div>
+          </div>
+          <div class="field" id="customWrap" style="margin-top:11px;${custom?'':'display:none'}">
+            <label>Custom event name</label>
+            <input class="inp" id="fCustom" value="${esc(c.customName)}" placeholder="e.g. Staff 100 M, March Past"></div>
+        </div>
+
+        <div class="formsec"><span class="eyebrow">Timing — enter the real times for this meet</span>
+          <div class="grid4">
+            <div class="field"><label>Start time</label><input class="inp" type="time" id="fStart" value="${fmtHHMM(c.scheduledStart)}"></div>
+            <div class="field"><label>Duration (min)</label><input class="inp" type="number" min="1" id="fDur" value="${c.duration||''}" placeholder="optional"></div>
+            <div class="field"><label>End time</label><input class="inp" type="time" id="fEnd" value="${fmtHHMM(c.scheduledEnd)}"></div>
+            <div class="field"><label>&nbsp;</label><button class="btn btn-gold" id="fStartNow">${ICON.play}Start now</button></div>
+          </div>
+          <p style="font-size:11.5px;color:var(--ink-3);margin:10px 0 0;line-height:1.5">
+            End time fills in from the duration and can be overwritten. Leave times blank until they are decided —
+            nothing is generated automatically.${c.delayedFrom?` Originally scheduled for ${fmtClock(c.delayedFrom)}.`:''}
+            ${c.actualStart?` Actually started ${fmtClock(c.actualStart)}.`:''}</p>
+          <div class="field" style="margin-top:11px"><label>Note (optional)</label>
+            <input class="inp" id="fNote" value="${esc(c.note)}" placeholder="e.g. delayed — waiting for officials"></div>
+        </div>
+      </div>
+      <div class="mfoot">
+        ${this.isNew?'':`<button class="btn btn-danger" data-x="delete">Delete</button>
+                         <button class="btn" data-x="dup">Duplicate</button>`}
+        <div class="spacer"></div>
+        <button class="btn" data-x="close">Cancel</button>
+        <button class="btn btn-primary" data-x="save">${this.isNew?'Add competition':'Save changes'}</button>
+      </div>`);
+
+    const read=()=>{
+      c.location=$('#fLoc').value.trim(); c.status=$('#fStatus').value;
+      c.category=$('#fCat').value; c.gender=$('#fGen').value;
+      const ev=$('#fEv').value;
+      if(ev==="__custom"){ c.customName=$('#fCustom').value.trim(); c.event=c.customName; }
+      else { c.customName=""; c.event=ev; }
+      c.note=$('#fNote').value.trim();
+      c.duration=$('#fDur').value?Number($('#fDur').value):null;
+      const prevStart=c.scheduledStart;
+      c.scheduledStart=hhmmToTs($('#fStart').value);
+      c.scheduledEnd=hhmmToTs($('#fEnd').value);
+      if(c.status==="delayed" && prevStart && c.scheduledStart!==prevStart && !c.delayedFrom) c.delayedFrom=prevStart;
+    };
+    const syncEnd=()=>{
+      if(this.endTouched) return;
+      const st=hhmmToTs($('#fStart').value), d=Number($('#fDur').value);
+      if(st&&d) $('#fEnd').value=fmtHHMM(st+d*60000);
+    };
+
+    $$('#arenaSegs [data-arena]',m).forEach(b=>b.addEventListener('click',()=>{
+      read(); c.arenaId=b.dataset.arena; c.type=Store.arena(c.arenaId).type; this.paint(); }));
+    $('[data-newarena]',m).addEventListener('click',()=>{ read(); Arenas.add(()=>this.paint()); });
+    ['#fCat','#fGen'].forEach(s=>$(s).addEventListener('change',()=>{ read();
+      if(!c.customName && !this.events().includes(c.event)) c.event=this.events()[0]; this.paint(); }));
+    $('#fEv').addEventListener('change',e=>{ $('#customWrap').style.display = e.target.value==="__custom"?'':'none'; });
+    $('#fStart').addEventListener('change',syncEnd); $('#fDur').addEventListener('input',syncEnd);
+    $('#fEnd').addEventListener('input',()=>{ this.endTouched=true; });
+    $('#fStartNow').addEventListener('click',()=>{ read();
+      const saved=this.commit(true); if(saved){ Comp.start(saved); Modal.close(); Dashboard.render(); toast("Competition started.","ok",2000); } });
+
+    $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+      const a=b.dataset.x;
+      if(a==="close") return Modal.close();
+      if(a==="save"){ read(); if(this.commit()){ Modal.close(); Dashboard.render(); ScheduleEditor.refresh(); } }
+      if(a==="dup"){ read(); const copy={...c,id:null,resultId:null,actualStart:null,actualEnd:null,pausedMs:0,pauseStart:null,status:"scheduled"};
+        Store.addComp(copy); Modal.close(); Dashboard.render(); ScheduleEditor.refresh(); toast("Competition duplicated.","ok"); }
+      if(a==="delete"){ confirmDo("Delete this competition?",
+          `${Comp.label(c)} will be removed from the programme${c.resultId?', together with its published result':''}. This cannot be undone.`,"Delete",
+          ()=>{ Store.removeComp(c.id); Modal.close(); Dashboard.render(); ScheduleEditor.refresh(); toast("Competition deleted.",""); }); }
+    }));
+  },
+  commit(silent){
+    const c=this.c;
+    if(!c.event && !c.customName){ toast("Choose an event, or enter a custom event name.","err"); return null; }
+    if(this.isNew){ const added=Store.addComp(c); this.c=added; this.isNew=false; if(!silent) toast("Competition added.","ok",2200); return added; }
+    Object.assign(Store.comp(c.id), c); Store.save(); if(!silent) toast("Changes saved.","ok",2000);
+    return Store.comp(c.id);
+  }
+};
+
+/* areas (track / field A / field B …) */
+const Arenas = {
+  add(after){
+    const m=Modal.open(`<h3>Add a competition area</h3>
+      <div class="grid2" style="margin-top:14px">
+        <div class="field"><label>Area name</label><input class="inp" id="aName" placeholder="e.g. Field B"></div>
+        <div class="field"><label>Type</label><select class="inp" id="aType"><option value="field">Field</option><option value="track">Track</option></select></div>
+      </div>
+      <div class="mfoot"><div class="spacer"></div><button class="btn" data-x="close">Cancel</button>
+        <button class="btn btn-primary" data-x="ok">Add area</button></div>`,"");
+    $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+      if(b.dataset.x==="ok"){
+        const name=$('#aName').value.trim(); if(!name){ toast("Give the area a name.","err"); return; }
+        if(Store.state.arenas.length>=4){ toast("Four competition areas is the maximum for one screen.","warn"); return; }
+        Store.state.arenas.push({id:"a"+Date.now().toString(36),name,type:$('#aType').value}); Store.save();
+        Modal.close(); after?after():Dashboard.render(); toast("Area added.","ok",2000);
+      } else Modal.close();
+    }));
+  },
+  manage(){
+    const m=Modal.open(`<div class="mhead"><div><span class="eyebrow">Competition areas</span>
+        <h3 style="margin-top:7px">Track and field areas</h3></div><div class="spacer"></div>
+        <button class="btn btn-icon" data-x="close">✕</button></div>
+      <div class="mbody">${Store.state.arenas.map(a=>`
+        <div class="srow" style="grid-template-columns:1fr auto auto">
+          <div><div class="ev">${esc(a.name)}</div><div class="cg">${a.type}</div></div>
+          <span class="arena-tag ${a.type}">${a.type}</span>
+          <button class="btn btn-xs btn-danger" data-del="${a.id}" ${Store.state.arenas.length<2?'disabled':''}>Remove</button>
+        </div>`).join('')}</div>
+      <div class="mfoot"><button class="btn" data-x="new">${ICON.plus}Add area</button><div class="spacer"></div>
+        <button class="btn btn-primary" data-x="close">Done</button></div>`);
+    $$('[data-del]',m).forEach(b=>b.addEventListener('click',()=>{
+      const id=b.dataset.del, used=Store.comps().filter(c=>c.arenaId===id).length;
+      confirmDo("Remove this area?", used?`${used} competition(s) are assigned to it and will move to ${Store.state.arenas.find(a=>a.id!==id).name}.`:"It has no competitions assigned.","Remove",
+        ()=>{ const fallback=Store.state.arenas.find(a=>a.id!==id);
+          Store.comps().forEach(c=>{ if(c.arenaId===id){ c.arenaId=fallback.id; c.type=fallback.type; } });
+          Store.state.arenas=Store.state.arenas.filter(a=>a.id!==id); Store.save(); Modal.close(); Dashboard.render(); });
+    }));
+    $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+      if(b.dataset.x==="new") Arenas.add(()=>Arenas.manage()); else { Modal.close(); Dashboard.render(); }
+    }));
+  }
+};
+
+/* ============================================================
+   6b. SCHEDULE EDITOR — reorder and run the programme live
+   ============================================================ */
+const ScheduleEditor = {
+  filter:"all", open_:false,
+  open(){ this.open_=true; this.paint(); },
+  refresh(){ if(this.open_ && $('#schedBody')) this.paintBody(); },
+  paint(){
+    const m=Modal.open(`
+      <div class="mhead"><div><span class="eyebrow">Programme</span>
+        <h3 style="margin-top:7px">Schedule &amp; timing</h3></div><div class="spacer"></div>
+        <button class="btn" data-x="areas">Areas</button>
+        <button class="btn" data-x="bulk">${ICON.plus}From programme</button>
+        <button class="btn btn-primary" data-x="add">${ICON.plus}Add competition</button>
+        <button class="btn btn-icon" data-x="close">✕</button></div>
+      <div class="sfilters" id="sFilters">
+        <button class="seg" data-f="all" aria-pressed="${this.filter==='all'}">All</button>
+        ${Store.state.arenas.map(a=>`<button class="seg ${a.type==='field'?'gold':''}" data-f="${a.id}" aria-pressed="${this.filter===a.id}">${esc(a.name)}</button>`).join('')}
+        <button class="seg" data-f="today" aria-pressed="${this.filter==='today'}">Not finished</button>
+      </div>
+      <div class="mbody" id="schedBody"></div>
+      <div class="mfoot"><span class="hint" style="font-size:11px;color:var(--ink-3)">Drag the handle to reorder · times are whatever you enter, nothing is generated</span>
+        <div class="spacer"></div><button class="btn btn-primary" data-x="close">Done</button></div>`,"wide");
+    $$('#sFilters .seg',m).forEach(b=>b.addEventListener('click',()=>{ this.filter=b.dataset.f;
+      $$('#sFilters .seg',m).forEach(x=>x.setAttribute('aria-pressed',x.dataset.f===this.filter)); this.paintBody(); }));
+    $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+      const a=b.dataset.x;
+      if(a==="close"){ this.open_=false; Modal.close(); Dashboard.render(); }
+      if(a==="add"){ this.open_=false; CompForm.open(null); }
+      if(a==="bulk") this.bulk();
+      if(a==="areas"){ this.open_=false; Arenas.manage(); }
+    }));
+    this.paintBody();
+  },
+  list(){
+    let l=Store.ordered();
+    if(this.filter==="today") l=l.filter(c=>!["completed","cancelled"].includes(c.status));
+    else if(this.filter!=="all") l=l.filter(c=>c.arenaId===this.filter);
+    return l;
+  },
+  paintBody(){
+    const body=$('#schedBody'); if(!body) return;
+    const l=this.list();
+    if(!l.length){ body.innerHTML=`<div class="empty-state" style="padding:30px 0">
+      <div class="big">Nothing in the programme yet</div>
+      <p>Add competitions one by one, or pull a whole age group in from the official programme and set the times you need.</p></div>`; return; }
+    body.innerHTML=l.map(c=>{
+      const a=Store.arena(c.arenaId), acts=[];
+      if(["scheduled","ready","delayed"].includes(c.status)) acts.push(`<button class="btn btn-xs btn-gold" data-a="start" data-id="${c.id}">Start</button>`);
+      if(c.status==="scheduled") acts.push(`<button class="btn btn-xs" data-a="ready" data-id="${c.id}">Ready</button>`);
+      if(c.status==="live") acts.push(`<button class="btn btn-xs" data-a="pause" data-id="${c.id}">Pause</button>`,
+                                      `<button class="btn btn-xs" data-a="complete" data-id="${c.id}">Complete</button>`);
+      if(c.status==="paused") acts.push(`<button class="btn btn-xs btn-primary" data-a="resume" data-id="${c.id}">Resume</button>`,
+                                        `<button class="btn btn-xs" data-a="complete" data-id="${c.id}">Complete</button>`);
+      if(["live","paused","completed"].includes(c.status)) acts.push(`<button class="btn btn-xs btn-gold" data-a="result" data-id="${c.id}">${c.resultId?'Result ✓':'Result'}</button>`);
+      if(c.status==="cancelled") acts.push(`<button class="btn btn-xs" data-a="restore" data-id="${c.id}">Restore</button>`);
+      acts.push(`<button class="btn btn-xs" data-a="edit" data-id="${c.id}">Edit</button>`);
+      return `<div class="srow" draggable="true" data-row="${c.id}">
+        <div class="grip" title="Drag to reorder">⠿</div>
+        <div class="tm">${c.scheduledStart?fmtClock(c.scheduledStart):'<span class="muted">—</span>'}
+          <small>${c.duration?c.duration+' min':(Comp.expectedEnd(c)?'ends '+fmtClock(Comp.expectedEnd(c)):'no duration')}</small></div>
+        <div><div class="ev">${esc(Comp.title(c))}</div>
+          <div class="cg">${esc(c.category)} · ${esc(c.gender)}${c.location?' · '+esc(c.location):''}${c.note?' · '+esc(c.note):''}</div></div>
+        <div><span class="arena-tag ${a.type}">${esc(a.name)}</span></div>
+        <div><span class="chip s-${c.status}">${STATUS_LABEL[c.status]}</span></div>
+        <div class="acts">${acts.join('')}
+          <button class="btn btn-xs" data-a="up" data-id="${c.id}" title="Move earlier">↑</button>
+          <button class="btn btn-xs" data-a="down" data-id="${c.id}" title="Move later">↓</button></div>
+      </div>`;
+    }).join('');
+
+    $$('[data-a]',body).forEach(b=>b.addEventListener('click',()=>{
+      const c=Store.comp(b.dataset.id), a=b.dataset.a;
+      if(a==="start"){ Comp.start(c); toast("Started.","ok",1800); }
+      if(a==="ready") Comp.setStatus(c,"ready");
+      if(a==="pause") Comp.pause(c);
+      if(a==="resume") Comp.resume(c);
+      if(a==="restore") Comp.setStatus(c,"scheduled");
+      if(a==="complete"){ Comp.complete(c); toast("Marked completed.","ok",1800); }
+      if(a==="edit"){ this.open_=false; return CompForm.open(c.id); }
+      if(a==="result"){ this.open_=false; return ResultEntry.open(c.id); }
+      if(a==="up") Store.move(c.id,-1);
+      if(a==="down") Store.move(c.id,1);
+      this.paintBody(); Dashboard.render();
+    }));
+    let dragId=null;
+    $$('.srow',body).forEach(r=>{
+      r.addEventListener('dragstart',()=>{ dragId=r.dataset.row; r.classList.add('dragging'); });
+      r.addEventListener('dragend',()=>{ r.classList.remove('dragging'); $$('.srow',body).forEach(x=>x.classList.remove('over')); });
+      r.addEventListener('dragover',e=>{ e.preventDefault(); r.classList.add('over'); });
+      r.addEventListener('dragleave',()=>r.classList.remove('over'));
+      r.addEventListener('drop',e=>{ e.preventDefault();
+        if(dragId&&dragId!==r.dataset.row){ Store.reorder(dragId,r.dataset.row); this.paintBody(); Dashboard.render(); } });
+    });
+  },
+  bulk(){
+    const st={cat:CATS[1],gen:"Boys",arena:Store.state.arenas[0].id,picked:new Set()};
+    const draw=()=>{
+      const m=Modal.open(`
+        <div class="mhead"><div><span class="eyebrow">Official programme</span>
+          <h3 style="margin-top:7px">Add events to the schedule</h3></div><div class="spacer"></div>
+          <button class="btn btn-icon" data-x="close">✕</button></div>
+        <div class="mbody">
+          <div class="formsec"><div class="grid3">
+            <div class="field"><label>Category</label><select class="inp" id="bCat">${CATS.map(c=>`<option ${c===st.cat?'selected':''}>${c}</option>`).join('')}</select></div>
+            <div class="field"><label>Gender</label><select class="inp" id="bGen">${GENDERS.map(g=>`<option ${g===st.gen?'selected':''}>${g}</option>`).join('')}</select></div>
+            <div class="field"><label>Area</label><select class="inp" id="bArena">${Store.state.arenas.map(a=>`<option value="${a.id}" ${a.id===st.arena?'selected':''}>${esc(a.name)}</option>`).join('')}</select></div>
+          </div></div>
+          <div class="segs" style="margin-bottom:10px">
+            <button class="seg" data-pick="track">Select all track events</button>
+            <button class="seg gold" data-pick="field">Select all field events</button>
+            <button class="seg" data-pick="none">Clear</button>
+          </div>
+          ${PROGRAMME[st.cat][st.gen].map(e=>`
+            <div class="srow" style="grid-template-columns:auto 1fr auto" data-ev="${esc(e)}">
+              <input type="checkbox" ${st.picked.has(e)?'checked':''} style="width:17px;height:17px;accent-color:var(--navy-2)">
+              <div class="ev">${esc(e)}</div>
+              <span class="arena-tag ${isFieldEvent(e)?'field':'track'}">${isFieldEvent(e)?'Field':'Track'}</span>
+            </div>`).join('')}
+          <p style="font-size:11.5px;color:var(--ink-3);line-height:1.5;margin:10px 0 0">
+            Added competitions start with no time set. Open each one to enter its real start time, or start it directly when the athletes are on the line.</p>
+        </div>
+        <div class="mfoot"><div class="spacer"></div>
+          <button class="btn" data-x="back">Back</button>
+          <button class="btn btn-primary" data-x="addsel">Add selected</button></div>`,"");
+      const sync=()=>{ st.cat=$('#bCat').value; st.gen=$('#bGen').value; st.arena=$('#bArena').value; st.picked=new Set(); };
+      ['#bCat','#bGen'].forEach(s=>$(s).addEventListener('change',()=>{ sync(); draw(); }));
+      $('#bArena').addEventListener('change',()=>{ st.arena=$('#bArena').value; });
+      $$('[data-ev]',m).forEach(r=>{ const cb=$('input',r);
+        r.addEventListener('click',e=>{ if(e.target!==cb) cb.checked=!cb.checked;
+          cb.checked?st.picked.add(r.dataset.ev):st.picked.delete(r.dataset.ev); }); });
+      $$('[data-pick]',m).forEach(b=>b.addEventListener('click',()=>{
+        const k=b.dataset.pick;
+        $$('[data-ev]',m).forEach(r=>{ const e=r.dataset.ev, want = k==="none"?false : k==="field"?isFieldEvent(e):!isFieldEvent(e);
+          $('input',r).checked=want; want?st.picked.add(e):st.picked.delete(e); }); }));
+      $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+        if(b.dataset.x==="close"){ this.open_=false; Modal.close(); Dashboard.render(); return; }
+        if(b.dataset.x==="back") return this.paint();
+        if(!st.picked.size){ toast("Tick at least one event.","warn"); return; }
+        [...st.picked].forEach(e=>{
+          const c=Comp.blank(st.arena); c.category=st.cat; c.gender=st.gen; c.event=e;
+          Store.addComp(c);
+        });
+        toast(`${st.picked.size} competition${st.picked.size>1?'s':''} added — set their times when you know them.`,"ok",4200);
+        this.paint(); Dashboard.render();
+      }));
+    };
+    draw();
+  }
+};
+
+/* ============================================================
+   7. SCORING SETTINGS — points are set by staff, never assumed
+   ============================================================ */
+const Scoring = {
+  open(){
+    const s=JSON.parse(JSON.stringify(Store.state.scoring));
+    const m=Modal.open(`
+      <div class="mhead"><div><span class="eyebrow">Official scoring</span>
+        <h3 style="margin-top:7px">Points per placing</h3></div><div class="spacer"></div>
+        <button class="btn btn-icon" data-x="close">✕</button></div>
+      <div class="mbody">
+        <p style="font-size:13px;color:var(--ink-2);line-height:1.6;margin:0 0 14px">
+          Enter the points your meet awards. House standings are built only from published results using these values,
+          and each result can still be adjusted individually.</p>
+        <div class="formsec"><span class="eyebrow">Individual events</span>
+          <div class="grid3">
+            ${[1,2,3].map(n=>`<div class="field"><label>${ORDTXT(n)} place</label>
+              <input class="inp" type="number" min="0" id="i${n}" value="${s.individual[n]||''}" placeholder="0"></div>`).join('')}
+          </div></div>
+        <div class="formsec"><span class="eyebrow">Relay events</span>
+          <div class="grid3">
+            ${[1,2,3].map(n=>`<div class="field"><label>${ORDTXT(n)} place</label>
+              <input class="inp" type="number" min="0" id="r${n}" value="${s.relay[n]||''}" placeholder="0"></div>`).join('')}
+          </div></div>
+        <div class="formsec"><span class="eyebrow">Manual house score adjustment</span>
+          <p style="font-size:12px;color:var(--ink-2);line-height:1.5;margin:0 0 10px">Choose a house and enter a non-negative number of points. Add or deduct applies to its current total. Automatic points from published results remain active and continue adding normally.</p>
+          <div class="grid2">
+            <div class="field"><label for="adjHouse">House</label>
+              <select class="inp" id="adjHouse">${HOUSE_KEYS.map(h=>`<option value="${h}">${h}</option>`).join('')}</select></div>
+            <div class="field"><label for="adjAmount">Points (0 or more)</label>
+              <input class="inp" type="number" min="0" step="1" inputmode="numeric" id="adjAmount" value="0" placeholder="Enter points"></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <button class="btn btn-primary" type="button" id="adjAdd">＋ Add points</button>
+            <button class="btn" type="button" id="adjDeduct">− Deduct points</button>
+          </div>
+          <div id="adjPreview" style="margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--ink-2)">Current total: loading…</div>
+        </div>
+        <div class="formsec"><span class="eyebrow">Meet title shown on screen</span>
+          <input class="inp" id="mTitle" value="${esc(Store.state.meetTitle||'')}" placeholder="Annual Athletic Meet"></div>
+      </div>
+      <div class="mfoot"><div class="spacer"></div>
+        <button class="btn" data-x="close">Cancel</button>
+        <button class="btn btn-primary" data-x="save">Save scoring</button></div>`);
+    const currentHouseTotal = house => Store.standings().find(row=>row.house===house)?.pts || 0;
+    const updateAdjustmentPreview = () => {
+      const house=$('#adjHouse',m).value;
+      $('#adjPreview',m).textContent=`${house} current total: ${currentHouseTotal(house)} points`;
+    };
+    $('#adjHouse',m).addEventListener('change',updateAdjustmentPreview);
+    const applyHouseAdjustment = mode => {
+      const house=$('#adjHouse',m).value;
+      const raw=$('#adjAmount',m).value.trim();
+      if(raw===''){ toast('Enter a points amount first.','warn'); return; }
+      const amount=Number(raw);
+      if(!Number.isFinite(amount)||amount<0||!Number.isInteger(amount)){
+        toast('Enter a whole number of 0 or more.','warn'); return;
+      }
+      if(amount===0){ toast('Enter an amount greater than zero.','warn'); return; }
+      const current=currentHouseTotal(house);
+      const next=mode==='add' ? current+amount : Math.max(0,current-amount);
+      const applied=mode==='add' ? amount : current-next;
+      const autoPoints=Store.state.results.reduce((sum,r)=>sum+(r.places||[]).reduce((subtotal,p)=>subtotal+(p.house===house?(Number(p.points)||0):0),0),0);
+      s.houseScoreBases=s.houseScoreBases||{};
+      s.houseScoreBases[house]={autoAt:autoPoints,scoreAt:next};
+      Store.state.scoring.houseScoreBases=s.houseScoreBases;
+      Store.save();
+      updateAdjustmentPreview();
+      if(mode==='add') toast(`${house}: added ${applied} points. New total: ${next}.`,'ok');
+      else if(applied>0) toast(`${house}: deducted ${applied} points. New total: ${next}.`,'ok');
+      else toast(`${house} is already at 0 points. No points deducted.`,'warn');
+    };
+    $('#adjAdd',m).addEventListener('click',()=>applyHouseAdjustment('add'));
+    $('#adjDeduct',m).addEventListener('click',()=>applyHouseAdjustment('deduct'));
+    updateAdjustmentPreview();
+    $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+      if(b.dataset.x==="save"){
+        [1,2,3].forEach(n=>{ s.individual[n]=Number($('#i'+n).value)||0; s.relay[n]=Number($('#r'+n).value)||0; });
+        s.configured = [1,2,3].some(n=>s.individual[n]>0||s.relay[n]>0);
+        Store.state.scoring=s; Store.state.meetTitle=$('#mTitle').value.trim()||MEET.title; Store.save();
+        Modal.close(); Dashboard.render(); toast(s.configured?"Scoring saved.":"Scoring cleared.","ok");
+      } else Modal.close();
+    }));
+  }
+};
+
+/* ============================================================
+   8. PHOTO UPLOADER  (carried over from v1 — working, untouched logic)
+   ============================================================ */
+const MAXDIM=1500, MAXBYTES=20*1024*1024;
+function loadImage(src){ return new Promise((res,rej)=>{ const i=new Image();
+  i.onload=()=>res(i); i.onerror=()=>rej(new Error("That image could not be read. Try a JPG or PNG.")); i.src=src; }); }
+async function processFile(file){
+  if(!file) throw new Error("No file selected.");
+  if(!/^image\//.test(file.type)) throw new Error("Only image files can be used for winner photos.");
+  if(file.size>MAXBYTES) throw new Error("That image is over 20 MB. Please choose a smaller photo.");
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await loadImage(url);
+    const s=Math.min(1, MAXDIM/Math.max(img.width,img.height));
+    const c=document.createElement('canvas');
+    c.width=Math.round(img.width*s); c.height=Math.round(img.height*s);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    return { src:c.toDataURL('image/jpeg',.86), ox:0, oy:0, zoom:1 };
+  } finally { URL.revokeObjectURL(url); }
+}
+function Uploader(host, photos, max){
+  function paint(){
+    host.innerHTML=`<div class="relaygrid">
+      ${photos.map((p,i)=>`<div class="drop has" data-i="${i}" title="Adjust, replace or remove"><img></div>`).join('')}
+      ${photos.length<max?`<div class="drop" data-add="1"><span class="plus">＋</span>${max>1?'Add':'Photo'}</div>`:''}</div>`;
+    $$('.drop.has img',host).forEach((im,i)=>applyPhoto(im,photos[i]));
+    bind();
+  }
+  function addFiles(list){
+    const files=[...list].slice(0,max-photos.length);
+    if(!files.length){ toast(`Maximum ${max} photo${max>1?'s':''} here.`,"warn"); return; }
+    files.forEach(f=>{
+      const slot=document.createElement('div'); slot.className="drop"; slot.innerHTML='<div class="busy"><div class="spin"></div></div>';
+      $('.relaygrid',host).appendChild(slot);
+      processFile(f).then(p=>{ photos.push(p); paint(); })
+        .catch(e=>{ slot.remove(); toast(e.message,"err",4500); });
+    });
+  }
+  function editor(i){
+    $$('.editpop',host).forEach(e=>e.remove());
+    const p=photos[i], pop=document.createElement('div'); pop.className="editpop";
+    pop.innerHTML=`<div class="eyebrow" style="margin-bottom:9px">Position &amp; zoom</div>
+      <div class="stagebox"><img></div>
+      <input type="range" min="1" max="2.4" step="0.02" value="${p.zoom}">
+      <div class="miniact"><button class="btn" data-act="rep">Replace</button>
+        <button class="btn" data-act="rem">Remove</button><button class="btn btn-primary" data-act="ok">Done</button></div>`;
+    host.appendChild(pop);
+    const box=$('.stagebox',pop), im=$('img',box); applyPhoto(im,p);
+    let drag=null;
+    box.addEventListener('pointerdown',e=>{ drag={x:e.clientX,y:e.clientY,ox:p.ox,oy:p.oy};
+      box.setPointerCapture(e.pointerId); box.classList.add('drag'); });
+    box.addEventListener('pointermove',e=>{ if(!drag) return; const r=box.getBoundingClientRect();
+      p.ox=Math.max(-60,Math.min(60,drag.ox+(e.clientX-drag.x)/r.width*100));
+      p.oy=Math.max(-60,Math.min(60,drag.oy+(e.clientY-drag.y)/r.height*100)); applyPhoto(im,p); });
+    ['pointerup','pointercancel'].forEach(ev=>box.addEventListener(ev,()=>{drag=null;box.classList.remove('drag');}));
+    $('input',pop).addEventListener('input',e=>{ p.zoom=+e.target.value; applyPhoto(im,p); });
+    $$('button',pop).forEach(b=>b.addEventListener('click',()=>{
+      const a=b.dataset.act;
+      if(a==='rem'){ photos.splice(i,1); pop.remove(); paint(); }
+      else if(a==='rep'){ pop.remove(); pick(i); }
+      else { pop.remove(); paint(); }
+    }));
+    setTimeout(()=>document.addEventListener('pointerdown',function off(e){
+      if(!pop.contains(e.target)){ pop.remove(); paint(); document.removeEventListener('pointerdown',off); } }),0);
+  }
+  function pick(replaceIdx){
+    const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    if(replaceIdx==null&&max>1) inp.multiple=true;
+    inp.onchange=()=>{ if(replaceIdx!=null){ const f=inp.files[0]; if(!f) return;
+        processFile(f).then(p=>{ photos.splice(replaceIdx,1,p); paint(); }).catch(e=>toast(e.message,"err",4500)); }
+      else addFiles(inp.files); };
+    inp.click();
+  }
+  function bind(){
+    $$('.drop',host).forEach(d=>{
+      if(d.dataset.add) d.addEventListener('click',()=>pick(null));
+      else d.addEventListener('click',()=>editor(+d.dataset.i));
+      d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over');});
+      d.addEventListener('dragleave',()=>d.classList.remove('over'));
+      d.addEventListener('drop',e=>{ e.preventDefault(); d.classList.remove('over');
+        if(d.dataset.add) addFiles(e.dataTransfer.files);
+        else { const f=e.dataTransfer.files[0]; if(f) processFile(f).then(p=>{photos.splice(+d.dataset.i,1,p);paint();}).catch(er=>toast(er.message,"err",4500)); } });
+    });
+  }
+  paint();
+}
+
+/* ============================================================
+   9. RESULT ENTRY — always tied to one competition
+   ============================================================ */
+const ResultEntry = {
+  open(compId){
+    const c=Store.comp(compId); if(!c){ toast("That competition no longer exists.","err"); return; }
+    const existing=c.resultId?Store.result(c.resultId):null;
+    this.compId=compId; this.confirming=false;
+    const relay=isRelay(Comp.title(c));
+    this.places=[1,2,3].map(n=>{
+      const p=existing&&existing.places.find(x=>x.position===n);
+      return { position:n, studentName:p?p.studentName:"", house:p?p.house:"", perf:p?p.perf:"",
+               points:p?p.points:Store.pointsFor(n,relay), photos:p&&p.photos?p.photos.map(o=>({...o})):[] };
+    });
+    this.paint();
+  },
+  paint(){
+    const c=Store.comp(this.compId), relay=isRelay(Comp.title(c)), maxPhotos=relay?4:1, a=Store.arena(c.arenaId);
+    const m=Modal.open(`
+      <div class="mhead"><div><span class="eyebrow">${a.name} · ${STATUS_LABEL[c.status]}</span>
+        <h3 style="margin-top:7px">${esc(c.category)} ${esc(c.gender)} — ${esc(Comp.title(c))}</h3></div>
+        <div class="spacer"></div><button class="btn btn-icon" data-x="close">✕</button></div>
+      <div class="mbody">
+        ${Store.state.scoring.configured?'':`<p style="font-size:12px;color:var(--ink-3);margin:0 0 12px">Points are not configured yet — enter them here, or set them once under <b>Points</b>.</p>`}
+        ${this.places.map(p=>`
+          <div class="entry e${p.position}" data-p="${p.position}">
+            <div class="posbadge">${ORDTXT(p.position).toUpperCase()}</div>
+            <div class="field"><label>${relay?'Team / athletes':'Student name'}</label>
+              <input class="inp fName" value="${esc(p.studentName)}" placeholder="${relay?'e.g. Falcon relay team':'Full name'}"></div>
+            <div class="field"><label>House</label>
+              <select class="inp fHouse"><option value="">Select</option>
+                ${HOUSE_KEYS.map(h=>`<option ${h===p.house?'selected':''}>${h}</option>`).join('')}</select></div>
+            <div class="field"><label>${perfLabel(Comp.title(c))}</label>
+              <input class="inp fPerf" value="${esc(p.perf)}" placeholder="${perfHint(Comp.title(c))}"></div>
+            <div class="field"><label>Points</label>
+              <input class="inp fPts" type="number" min="0" value="${p.points||''}" placeholder="0"></div>
+            <div class="field"><label>Photo</label><div class="uploader" data-up="${p.position}"></div></div>
+          </div>`).join('')}
+      </div>
+      <div class="mfoot">
+        <span class="hint" style="font-size:11px;color:var(--ink-3)">Publishing runs the 60-second ceremony. Other live competitions keep running.</span>
+        <div class="spacer"></div>
+        <button class="btn" data-x="close">Cancel</button>
+        <button class="btn" data-x="preview">${ICON.play}Preview</button>
+        <button class="btn btn-gold" data-x="publish">${ICON.medal}${this.confirming?'Confirm — replace result':'Publish result'}</button>
+      </div>`);
+    this.places.forEach(p=>Uploader($(`[data-up="${p.position}"]`,m), p.photos, maxPhotos));
+    const sync=()=>{ $$('.entry',m).forEach((row,i)=>{ const p=this.places[i];
+      p.studentName=$('.fName',row).value.trim(); p.house=$('.fHouse',row).value;
+      p.perf=$('.fPerf',row).value.trim(); p.points=Number($('.fPts',row).value)||0; }); };
+    $$('.fName,.fHouse,.fPerf,.fPts',m).forEach(i=>i.addEventListener('change',()=>{ sync(); this.confirming=false; }));
+    $$('[data-x]',m).forEach(b=>b.addEventListener('click',()=>{
+      const act=b.dataset.x;
+      if(act==="close") return Modal.close();
+      sync(); const r=this.build(); if(!this.validate(r)) return;
+      if(act==="preview"){ Modal.close();
+        VictoryMoment.play(r,{preview:true,
+          onBack:()=>{ VictoryMoment.close(true); this.paint(); },
+          onPublish:()=>{ VictoryMoment.close(true); this.commit(r); }});
+        return; }
+      if(Store.comp(this.compId).resultId && !this.confirming){
+        this.confirming=true; this.paint();
+        toast("This competition already has a published result. Press again to replace it.","warn",5000); return; }
+      Modal.close(); this.commit(r);
+    }));
+  },
+  build(){
+    const c=Store.comp(this.compId);
+    return { id:"r"+Date.now().toString(36), compId:c.id, arenaId:c.arenaId, type:c.type,
+      category:c.category, gender:c.gender, event:Comp.title(c), timestamp:Date.now(),
+      places:this.places.filter(p=>p.studentName).map(p=>({...p, photos:p.photos.map(x=>({...x}))})) };
+  },
+  validate(r){
+    if(!r.places.some(p=>p.position===1)){ toast("Enter the first-place athlete before publishing.","err"); return false; }
+    const noHouse=r.places.filter(p=>!p.house);
+    if(noHouse.length){ toast(`Select a house for ${noHouse.map(p=>ORDTXT(p.position)).join(', ')} place.`,"err"); return false; }
+    return true;
+  },
+  commit(r){
+    const c=Store.comp(this.compId);
+    Store.publishResult(r,c); Dashboard.render();
+    VictoryMoment.play(r,{}); toast("Result published.","ok");
+  }
+};
+
+/* ============================================================
+   10. VICTORY MOMENT — 60 seconds enforced by the real clock
+   ============================================================ */
+const MIN_SECONDS = 60;
+const VictoryMoment = {
+  st:null,
+  play(result, opts={}){
+    if(!result){ toast("No result to show yet.","warn"); return; }
+    const hero=result.places.find(p=>p.position===1&&p.studentName)||result.places[0];
+    if(!hero){ toast("No winner recorded for that competition.","warn"); return; }
+    if(this.st) this.close(true);
+    const photos=hero.photos||[], tone=hero.position===1?'gold':hero.position===2?'silver':'bronze';
+    const relay=isRelay(result.event);
+    const startedAt = opts.resumeFrom || Date.now();
+    const elapsed = (Date.now()-startedAt)/1000;
+    const skipIntro = elapsed>16 || opts.preview;
+
+    $('#vmRoot').innerHTML=`
+      <div class="vm ${tone} ${opts.preview?'preview':''} ${skipIntro&&!opts.preview?'skip-intro':''}" id="vm" ${skipIntro&&!opts.preview?'style="--d-top:0s;--d-pos:.1s;--d-name:.2s;--d-sub:.3s;--d-photo:.1s;--d-run:.4s"':''}>
+        <div class="vm-top">
+          <div class="crest"><img src="${LOGO}" alt=""></div>
+          <div><div class="vm-meet">${esc(MEET.school)} · ${esc(Store.state.meetTitle||MEET.title)}</div>
+            <div class="vm-eventline">${esc(result.category)} ${esc(result.gender)} — <b>${esc(result.event)}</b></div></div>
+          <div class="spacer"></div>
+          <div class="vm-stamp"><div class="vm-meet">Result declared</div>
+            <div class="vm-eventline" style="font-size:17px">${fmtClock(result.timestamp)}</div></div>
+        </div>
+        <div class="vm-stage equal-results">
+          <div class="vm-results-grid">
+            ${result.places.filter(p=>p.studentName).sort((a,b)=>a.position-b.position).map(p=>`
+              <article class="vm-result-card place-${p.position}" style="--reveal-delay:${1.4+(p.position-1)*2.6}s">
+                <div class="vm-result-place">${ORD(p.position)} <span style="font-size:.45em;letter-spacing:.18em">PLACE</span></div>
+                <div class="vm-result-photo">${p.photos&&p.photos[0]?`<img src="${p.photos[0].src}" alt="${esc(p.studentName)}">`:`<div class="nophoto">PHOTOGRAPH<br>NOT UPLOADED</div>`}</div>
+                <div class="vm-result-name">${esc(p.studentName)}</div>
+                <div class="vm-result-meta"><span class="house-badge">${houseDot(p.house,12)}${esc(p.house||'—')} House</span><span class="medal-chip">${ICON.medal}${MEDAL(p.position)} Medal</span></div>
+                ${p.perf?`<div class="vm-perf">${perfLabel(result.event)} · ${esc(p.perf)}</div>`:''}
+              </article>`).join('')}
+          </div>
+        </div>
+        <div class="vm-foot">
+          <div class="spacer"></div>
+          <div class="vm-timer" style="position:relative">
+            ${this.liveNote()}
+            ${opts.preview?'':`<div class="vm-progress"><i id="vmBar"></i></div><div class="vm-count" id="vmCount"></div>`}
+            <div class="vm-ctl">
+              ${opts.preview?`<button class="btn" id="vmBack">Back to edit</button>
+                              <button class="btn btn-gold" id="vmPub">${ICON.medal}Publish now</button>`
+                            :`<button class="btn" id="vmExt">+30s</button>
+                              <button class="btn" id="vmHold">Hold</button>
+                              <button class="btn btn-primary" id="vmExit">Locked</button>`}
+            </div>
+          </div>
+        </div>
+      </div>
+      ${opts.preview?`<span class="pill preview-tag">Preview — not published</span>`:''}`;
+
+    const vm=$('#vm');
+    if(photos.length) $$('.frame img',vm).forEach((im,i)=>applyPhoto(im,photos[i]));
+    if(opts.preview){
+      vm.classList.add('emphasis');
+      $('#vmBack').addEventListener('click',()=>opts.onBack&&opts.onBack());
+      $('#vmPub').addEventListener('click',()=>opts.onPublish&&opts.onPublish());
+      this.st={preview:true}; return;
+    }
+
+    this.st={ startedAt, holdUntil:opts.holdUntil||MIN_SECONDS, held:!!opts.held, replay:!!opts.replay };
+    if(!opts.replay){ Store.state.vm={resultId:result.id, startedAt, holdUntil:this.st.holdUntil, held:this.st.held}; Store.save(); }
+    if(elapsed>=40) vm.classList.add('emphasis');
+    if(elapsed>=55) vm.classList.add('outro');
+    $('#vmExt').addEventListener('click',()=>{ this.st.holdUntil+=30; vm.classList.remove('outro'); this.persist();
+      toast("Ceremony extended by 30 seconds.","ok",2200); });
+    $('#vmHold').addEventListener('click',e=>{ this.st.held=!this.st.held; this.persist();
+      e.currentTarget.classList.toggle('btn-primary',this.st.held);
+      e.currentTarget.textContent=this.st.held?'Held':'Hold'; });
+    $('#vmExit').addEventListener('click',e=>{ if(!e.currentTarget.disabled) this.close(); });
+    this.tick();
+  },
+  liveNote(){
+    const live=Store.comps().filter(c=>Comp.isActive(c));
+    if(!live.length) return '';
+    return `<span class="pill vm-live-note">${live.map(c=>
+      `<span class="dot live-dot"></span>${esc(Store.arena(c.arenaId).name)} · ${esc(Comp.title(c))} <span data-elapsed="${c.id}">${fmtDur(Comp.elapsed(c))}</span>`
+    ).join(' &nbsp;·&nbsp; ')}</span>`;
+  },
+  persist(){
+    if(!this.st||this.st.preview||this.st.replay) return;
+    Store.state.vm={...Store.state.vm, holdUntil:this.st.holdUntil, held:this.st.held}; Store.save();
+  },
+  tick(){
+    const s=this.st; if(!s||s.preview) return;
+    const vm=$('#vm'); if(!vm) return;
+    const el=(Date.now()-s.startedAt)/1000;
+    const bar=$('#vmBar'), count=$('#vmCount'), exit=$('#vmExit');
+    if(bar) bar.style.width=Math.min(100,el/MIN_SECONDS*100)+'%';
+    if(el>=40) vm.classList.add('emphasis');
+    if(el>=s.holdUntil-5 && !s.held) vm.classList.add('outro');
+    if(exit){
+      const unlocked = el>=MIN_SECONDS || s.replay;
+      exit.disabled=!unlocked;
+      exit.textContent = unlocked ? "Return to dashboard" : `Locked ${Math.ceil(MIN_SECONDS-el)}s`;
+    }
+    if(count){ const left=Math.ceil(s.holdUntil-el); count.textContent = s.held?'HOLD':(left>0&&left<=15?left+'s':''); }
+    if(!s.held && el>=s.holdUntil) this.close();
+  },
+  close(instant){
+    if(!this.st) return;
+    this.st=null;
+    if(Store.state.vm){ Store.state.vm=null; Store.save(); }
+    const vm=$('#vm');
+    if(!vm||instant){ $('#vmRoot').innerHTML=""; return; }
+    vm.classList.add('closing');
+    setTimeout(()=>{ $('#vmRoot').innerHTML=""; Dashboard.render(); },980);
+  },
+  resume(){
+    const v=Store.state.vm; if(!v) return;
+    const r=Store.result(v.resultId);
+    if(!r){ Store.state.vm=null; Store.save(); return; }
+    if((Date.now()-v.startedAt)/1000 >= (v.holdUntil||MIN_SECONDS) && !v.held){ Store.state.vm=null; Store.save(); return; }
+    this.play(r,{resumeFrom:v.startedAt, holdUntil:v.holdUntil, held:v.held});
+  }
+};
+
+/* ============================================================
+   11. BOOT
+   ============================================================ */
+Store.load();
+Dashboard.render();
+Ticker.start();
+VictoryMoment.resume();
+window.addEventListener('keydown',e=>{
+  if($('#scrim')||$('#vm')||/input|select|textarea/i.test(document.activeElement.tagName)) return;
+  if(e.key==='f') $('#btnFull').click();
+  if(e.key==='a') CompForm.open(null);
+  if(e.key==='s') ScheduleEditor.open();
+});
+
+</script>
+</body>
+</html>
